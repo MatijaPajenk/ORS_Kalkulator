@@ -3,7 +3,6 @@
 :root {
     --btn-width: 4em;
     --btn-height: 2em;
-    --btn-special-width: calc(var(--btn-width)*2);
 }
 
 * {
@@ -55,10 +54,10 @@ footer p {
 #calc-display {
     height: 2em;
     width: 100%;
-
 }
 
-#arithmetic-buttons {
+#arithmetic-buttons,
+#programmer-buttons {
     margin-top: 1em;
 }
 
@@ -83,10 +82,6 @@ footer p {
 
 .btn-num {
     background-color: #aaaaaa;
-}
-
-.btn-special {
-    width: var(--btn-special-width);
 }
 
 .radio-group {

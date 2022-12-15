@@ -20,20 +20,20 @@
             <div id="left">
                 <div id="calculator">
                     <div id="display">
-                        <input type="text" name="calc-display" id="calc-display">
+                        <input type="text" name="calc-display" id="calc-display" readonly>
                     </div>
-                    <div id="programmer-buttons" hidden>
-                        Programmer buttons
-                    </div>
-                    <div id="arithmetic-buttons">
+                    <div id="arithmetic-buttons" hidden>
+                        
                         <div class="row">    
-                            <input type="button" value="C" class="btn btn-special" onclick="clearDisplay();">
-                            <button type="button" class="btn btn-special" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
+                            <input type="button" value="(" class="btn" onclick="addBtnValue(this.value);">
+                            <input type="button" value=")" class="btn" onclick="addBtnValue(this.value);">
+                            <input type="button" value="C" class="btn" onclick="clearDisplay();">
+                            <button type="button" class="btn" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
                         </div>
                         <div class="row">
                             <button type="button" value="^" class="btn" onclick="addBtnValue(this.value);">x<sup>y</sup></button>
                             <input type="button" value="%" class="btn" onclick="addBtnValue(this.value);">
-                            <button type="button" value="sqrt" class="btn" onclick="addBtnValue(this.value);">&Sqrt;x</button>
+                            <button type="button" value="s" class="btn" onclick="addBtnValue(this.value);">&Sqrt;x</button>
                             <input type="button" value="/" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
@@ -58,16 +58,53 @@
                             <input type="button" value="+/-" class="btn">
                             <input type="button" value="0" class="btn btn-num" onclick="addBtnValue(this.value);">
                             <input type="button" value="." class="btn" onclick="addBtnValue(this.value);">
-                            <input type="button" value="=" class="btn btn-equals">
+                            <input type="button" value="=" class="btn btn-equals" onclick="compute()">
+                        </div>
+                    </div>
+                    <div id="programmer-buttons">
+                        <div class="row">
+                            <input type="button" value="C" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="D" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="E" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="F" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="AND" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="8" class="btn btn-num hex dec" onclick="addBtnValue(this.value);">
+                            <input type="button" value="9" class="btn btn-num hex dec" onclick="addBtnValue(this.value);">
+                            <input type="button" value="A" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="B" class="btn btn-num hex" onclick="addBtnValue(this.value);">
+                            <input type="button" value="OR" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="4" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="5" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="6" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="7" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="XOR" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="0" class="btn btn-num hex dec oct bin" onclick="addBtnValue(this.value);">
+                            <input type="button" value="1" class="btn btn-num hex dec oct bin" onclick="addBtnValue(this.value);">
+                            <input type="button" value="2" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="3" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="NOT" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="BIN" class="btn" onclick="setNumberSystem('bin');">
+                            <input type="button" value="OCT" class="btn" onclick="setNumberSystem('oct');">
+                            <input type="button" value="DEC" class="btn" onclick="setNumberSystem('dec');">
+                            <input type="button" value="HEX" class="btn" onclick="setNumberSystem('hex');">
+                            <input type="button" value="=" class="btn btn-equals" onclick="">
                         </div>
                     </div>
                 </div>
                 <label class="radio-group">Arithmetic
-                    <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
+                    <input type="radio" name="buttons" id="arithmetic-radio" value="A">
                     <span class="checkmark"></span>
                 </label>
                 <label class="radio-group">Programmer
-                    <input type="radio" name="buttons" id="programmer-radio" value="P">
+                    <input type="radio" name="buttons" id="programmer-radio" value="P" checked>
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -83,10 +120,10 @@
             </div>   
         </div>
     </main>
-    <footer>
+    <!-- <footer>
         <p>ORS - druga seminarsa naloga</p>
         <p>Avtor: Matija Pajenk, Rok Rozman Marinčič</p>
         <p>Mentor: Petra Povalej Bržan</p>
-    </footer>
+    </footer> -->
 </body>
 </html>
