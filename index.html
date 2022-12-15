@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="https://kit.fontawesome.com/83cf32855d.js" crossorigin="anonymous"></script>
+    <title>Kalkulator</title>
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            Kalkulator
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <div id="left">
+                <div id="calculator">
+                    <div id="display">
+                        <input type="text" name="calc-display" id="calc-display">
+                    </div>
+                    <div id="programmer-buttons" hidden>
+                        Programmer buttons
+                    </div>
+                    <div id="arithmetic-buttons">
+                        <div class="row">    
+                            <input type="button" value="C" class="btn btn-special" onclick="clearDisplay();">
+                            <button type="button" class="btn btn-special" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
+                        </div>
+                        <div class="row">
+                            <button type="button" value="^" class="btn" onclick="addBtnValue(this.value);">x<sup>y</sup></button>
+                            <input type="button" value="%" class="btn" onclick="addBtnValue(this.value);">
+                            <button type="button" value="sqrt" class="btn" onclick="addBtnValue(this.value);">&Sqrt;x</button>
+                            <input type="button" value="/" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="7" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="8" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="9" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="*" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="4" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="5" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="6" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="-" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="1" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="2" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="3" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="+" class="btn" onclick="addBtnValue(this.value);">
+                        </div>
+                        <div class="row">
+                            <input type="button" value="+/-" class="btn">
+                            <input type="button" value="0" class="btn btn-num" onclick="addBtnValue(this.value);">
+                            <input type="button" value="." class="btn" onclick="addBtnValue(this.value);">
+                            <input type="button" value="=" class="btn btn-equals">
+                        </div>
+                    </div>
+                </div>
+                <label class="radio-group">Arithmetic
+                    <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
+                    <span class="checkmark"></span>
+                </label>
+                <label class="radio-group">Programmer
+                    <input type="radio" name="buttons" id="programmer-radio" value="P">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div id="right">
+                <div id="file-upoload">
+                    <div id="list">
+
+                    </div>
+                    <div id="controls">
+
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </main>
+    <footer>
+        <p>ORS - druga seminarsa naloga</p>
+        <p>Avtor: Matija Pajenk, Rok Rozman Marinčič</p>
+        <p>Mentor: Petra Povalej Bržan</p>
+    </footer>
+</body>
+</html>
