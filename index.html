@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <script src="https://kit.fontawesome.com/83cf32855d.js" crossorigin="anonymous"></script>
     <title>Kalkulator</title>
 </head>
+
 <body>
     <nav>
         <div class="navbar">
@@ -22,18 +24,20 @@
                     <div id="display">
                         <input type="text" name="calc-display" id="calc-display" readonly>
                     </div>
-                    <div id="arithmetic-buttons" hidden>
-                        
-                        <div class="row">    
+                    <div id="arithmetic-buttons">
+                        <div class="row">
                             <input type="button" value="(" class="btn" onclick="addBtnValue(this.value);">
                             <input type="button" value=")" class="btn" onclick="addBtnValue(this.value);">
                             <input type="button" value="C" class="btn" onclick="clearDisplay();">
-                            <button type="button" class="btn" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
+                            <button type="button" class="btn" onclick="deleteDisplayValue();"><i
+                                    class="fa-solid fa-delete-left"></i></button>
                         </div>
                         <div class="row">
-                            <button type="button" value="^" class="btn" onclick="addBtnValue(this.value);">x<sup>y</sup></button>
+                            <button type="button" value="^" class="btn"
+                                onclick="addBtnValue(this.value);">x<sup>y</sup></button>
                             <input type="button" value="%" class="btn" onclick="addBtnValue(this.value);">
-                            <button type="button" value="s" class="btn" onclick="addBtnValue(this.value);">&Sqrt;x</button>
+                            <button type="button" value="s" class="btn"
+                                onclick="addBtnValue(this.value);">&Sqrt;x</button>
                             <input type="button" value="/" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
@@ -61,7 +65,7 @@
                             <input type="button" value="=" class="btn btn-equals" onclick="compute()">
                         </div>
                     </div>
-                    <div id="programmer-buttons">
+                    <div id="programmer-buttons" hidden>
                         <div class="row">
                             <input type="button" value="C" class="btn btn-num hex" onclick="addBtnValue(this.value);">
                             <input type="button" value="D" class="btn btn-num hex" onclick="addBtnValue(this.value);">
@@ -70,24 +74,34 @@
                             <input type="button" value="AND" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
-                            <input type="button" value="8" class="btn btn-num hex dec" onclick="addBtnValue(this.value);">
-                            <input type="button" value="9" class="btn btn-num hex dec" onclick="addBtnValue(this.value);">
+                            <input type="button" value="8" class="btn btn-num hex dec"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="9" class="btn btn-num hex dec"
+                                onclick="addBtnValue(this.value);">
                             <input type="button" value="A" class="btn btn-num hex" onclick="addBtnValue(this.value);">
                             <input type="button" value="B" class="btn btn-num hex" onclick="addBtnValue(this.value);">
                             <input type="button" value="OR" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
-                            <input type="button" value="4" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
-                            <input type="button" value="5" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
-                            <input type="button" value="6" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
-                            <input type="button" value="7" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="4" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="5" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="6" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="7" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
                             <input type="button" value="XOR" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
-                            <input type="button" value="0" class="btn btn-num hex dec oct bin" onclick="addBtnValue(this.value);">
-                            <input type="button" value="1" class="btn btn-num hex dec oct bin" onclick="addBtnValue(this.value);">
-                            <input type="button" value="2" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
-                            <input type="button" value="3" class="btn btn-num hex dec oct" onclick="addBtnValue(this.value);">
+                            <input type="button" value="0" class="btn btn-num hex dec oct bin"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="1" class="btn btn-num hex dec oct bin"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="2" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
+                            <input type="button" value="3" class="btn btn-num hex dec oct"
+                                onclick="addBtnValue(this.value);">
                             <input type="button" value="NOT" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
@@ -100,11 +114,11 @@
                     </div>
                 </div>
                 <label class="radio-group">Arithmetic
-                    <input type="radio" name="buttons" id="arithmetic-radio" value="A">
+                    <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
                     <span class="checkmark"></span>
                 </label>
                 <label class="radio-group">Programmer
-                    <input type="radio" name="buttons" id="programmer-radio" value="P" checked>
+                    <input type="radio" name="buttons" id="programmer-radio" value="P">
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -117,7 +131,7 @@
 
                     </div>
                 </div>
-            </div>   
+            </div>
         </div>
     </main>
     <!-- <footer>
@@ -126,4 +140,5 @@
         <p>Mentor: Petra Povalej Bržan</p>
     </footer> -->
 </body>
+
 </html>
