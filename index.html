@@ -36,8 +36,8 @@
                             <button type="button" value="^" class="btn"
                                 onclick="addBtnValue(this.value);">x<sup>y</sup></button>
                             <input type="button" value="%" class="btn" onclick="addBtnValue(this.value);">
-                            <button type="button" value="s" class="btn"
-                                onclick="addBtnValue(this.value);">&Sqrt;x</button>
+                            <button type="button" value="sqrt" class="btn"
+                                onclick="addSqrtValue();">&Sqrt;x</button>
                             <input type="button" value="/" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
@@ -124,11 +124,20 @@
             </div>
             <div id="right">
                 <div id="file-upoload">
-                    <div id="list">
+                    <table id="table">
+                        <thead>
+                            <th>Enacba</th>
+                            <th>Resi</th>
+                        </thead>
+                        <tbody id="tbody">
 
-                    </div>
+                        </tbody>
+                    </table>
+                    <br>
                     <div id="controls">
-
+                        <label for="uploadFile"><h2>Nalozi enacbe</h2></label>
+                        <input type="file" name="uploadFile" id="uploadFile" accept=".txt" onchange="uploadFromFile(this);">
+                        <br>
                     </div>
                 </div>
             </div>

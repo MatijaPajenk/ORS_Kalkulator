@@ -42,6 +42,11 @@ function addBtnValue(val) {
     display.value += val;
 }
 
+function addSqrtValue() {
+    const display = document.getElementById('calc-display');
+    display.value += "^(1/2)";
+}
+
 function clearDisplay() {
     document.getElementById('calc-display').value = "";
 }
@@ -53,56 +58,30 @@ function deleteDisplayValue() {
 }
 
 function solveParentheses(eq) {
-    let equations = [];
-    let operators = [];
+    let equation = eq;
+    // console.log("SP equation: " + equation);
+
     let start = 0;
-    // console.log("ID: " + eq.indexOf('(', start));
-    // start = eq.indexOf('(', start) + 1;
-    // console.log("ID: " + eq.indexOf('(', start));
+
     while (eq.indexOf('(', start) != -1) {
-        let slice = eq.slice(eq.indexOf('(', start) + 1, eq.indexOf(')', start));
+        let sliceP = eq.slice(eq.indexOf('(', start), eq.indexOf(')', start)+1);
+        // console.log("SP sliceP: " + sliceP);
+        let slice = sliceP.slice(1, sliceP.length - 1);
 
-        operators.push(eq[eq.indexOf(')', start) + 1]);
+        // console.log("SP slice: " + slice);
+        slice = calculate(slice);
+        // console.log("SP slice: " + slice);
+        equation = equation.replace(sliceP, slice);
 
-        // console.log("ID: " + eq.indexOf('(', start));
-        // console.log("slice: " + slice);
-        equations.push(slice);
         start = eq.indexOf(')', start) + 1;
     }
-
-
-    // TODO fix this calculation
-    // console.log(`Equations: ${equations}`);
-    // console.log(`Operators: ${operators}`);
-    let res = '';
-    for (let i = 0; i < equations.length-1; i++){
-        res += equations[i] + operators[i];
-    }
-    res += equations[equations.length-1];
-    // equations.forEach(x => {
-    //     console.log(`x: ${x}`);
-    //     console.log(`Res: ${calculate(x)}`);
-    //     res.push(calculate(x));
-    // })
-
-    // console.log(`Res: ${res}`);
-    res = calculate(res);
-    // console.log(`Res: ${res}`);
-
-    // let final = '';
-    // for (let i = 0; i < res.length - 1; i++) {
-    //     final += res[i] + operators[i];
-    // }
-    // final += res[res.length - 1];
-    // console.log(`Temp: ${final}`);
-    // (5-3)*(4)-(3)
-    // 2*4-3
-    return res;
+    // console.log("SP return eqation: " + equation);
+    return equation;
 
 }
 
 function solveExperssions(eq, op) {
-    console.log("eq start: " + eq);
+    console.log("SE; eq start: " + eq);
     let equations = [];
     let start = 0;
     while (eq.indexOf(op, start) != -1) {
@@ -123,12 +102,12 @@ function solveExperssions(eq, op) {
             }
             right += eq[i];
         }
-        console.log(`Left: ${left}`);
-        console.log(`Right: ${right}`);
+        // console.log(`Left: ${left}`);
+        // console.log(`Right: ${right}`);
         equations.push(left + op + right);
         start = eq.indexOf(op, start) + 1;
     }
-    console.log(`Partial equation: ${equations}`);
+    // console.log(`Partial equation: ${equations}`);
     res = [];
     equations.forEach(x => {
         let y = calculate(x);
@@ -136,9 +115,7 @@ function solveExperssions(eq, op) {
         eq = eq.replace(x, y);
     })
     console.log('New equaitons: ' + eq);
-    res = calculate(eq);
-    console.log(`Res: ${res}`);
-    return res;
+    return eq;
 }
 
 function solveMulDivMod() {
@@ -150,6 +127,7 @@ function solveAddSub() {
 }
 
 function calculate(equation) {
+    console.log("Calculate; Eqations is: " + equation)
     let numbers = [];
     let operations = [];
     let num = '';
@@ -160,7 +138,7 @@ function calculate(equation) {
                 continue;
             }
             if (num.length > 0) {
-                console.log("Num to push: " + num);
+                // console.log("Num to push: " + num);
                 numbers.push(num);
                 num = '';
             }
@@ -170,16 +148,16 @@ function calculate(equation) {
             num += equation[i];
         }
         if (i == equation.length - 1) {
-            console.log("Num to push: " + num);
+            // console.log("Num to push: " + num);
             numbers.push(num);
             num = '';
         }
     }
-    console.log("Calculate(numbers): " + numbers);
-    console.log("calculate operators: " + operations);
+    // console.log("Calculate(numbers): " + numbers);
+    // console.log("calculate operators: " + operations);
 
     let res = parseFloat(numbers[0]);
-    console.log("parse res: " + res);
+    console.log("x: " + res);
     for (let i = 0; i < numbers.length - 1; i++) {
         if (numbers[i] == NaN) continue;
         let y = parseFloat(numbers[i + 1]);
@@ -214,7 +192,6 @@ function calculate(equation) {
     return res;
 }
 
-// TODO PEMDAS, sqrt
 function compute() {
     // get display element and value
     const display = document.getElementById('calc-display');
@@ -222,13 +199,40 @@ function compute() {
     if (equation.length == 0) return;
     if (equation.includes('(')) {
         equation = solveParentheses(equation);
+        //console.log("Eqation is " + equation);
     }
-    if (equation.includes('*')) {
-        equation = solveExperssions(equation, '*');
-    }
-    else {
+
+    if (isNaN(equation)) {
+
+        if (equation.includes('^')) {
+            equation = solveExperssions(equation, '^');
+        }
+        if (equation.includes('*') || equation.includes('/')) {
+            let mul = equation.indexOf('*');
+            let div = equation.indexOf('/');
+            if (mul != -1 && div != -1) {
+                if (mul < div) {
+                    equation = solveExperssions(equation, '*');
+                    equation = solveExperssions(equation, '/');
+                }
+                else {
+                    equation = solveExperssions(equation, '/');
+                    equation = solveExperssions(equation, '*');
+                }
+            }
+            else if (mul != -1 && div == -1) {
+                equation = solveExperssions(equation, '*');
+            }
+            else {
+                equation = solveExperssions(equation, '/');
+            }
+        }
+        if (equation.includes('%')) {
+            equation = solveExperssions(equation, '%');
+        }
         equation = calculate(equation);
     }
+    
 
     display.value = equation;
 }
@@ -243,6 +247,60 @@ function setNumberSystem(val) {
     Array.from(ok).forEach(el => {
         el.style.display = 'block';
     });
+}
+
+function getSolveButton(id) {
+    let button = document.createElement('button');
+    button.id = `eq-${id}`;
+    button.classList += 'btn-table';
+    button.innerText = "Izracunaj";
+    button.addEventListener('click', function () {
+        let text = this.parentElement.parentElement.firstChild.innerText;
+        console.log(text);
+        document.getElementById('calc-display').value = text;
+    })
+    return button;
+}
+
+function uploadFromFile(input) {
+    let file = input.files[0];
+    alert(`File name: ${file.name}`);
+    // alert(`Last modified: ${file.lastModified}`);
+
+    let reader = new FileReader();
+    let text;
+    reader.readAsText(file);
+    reader.onload = function () {
+        let tbody = document.getElementById('tbody');
+        let id = 0;
+        console.log(this.result);
+        text = this.result.split('\r\n');
+        console.log("Before");
+        console.log(text);
+        text.forEach(x => {
+            x = x.replaceAll(' ', '');
+            let row = document.createElement('tr');
+            let text_cell = document.createElement('td');
+            text_cell.innerText = x;
+            let btn_cell = document.createElement('td');
+            btn_cell.classList += 'btn-cell';
+            btn_cell.appendChild(getSolveButton(id));
+            row.appendChild(text_cell);
+            row.appendChild(btn_cell);
+            tbody.appendChild(row);
+            console.log(x);
+            id++;
+        })
+        console.log("After");
+        console.log(text);
+
+
+    }
+    reader.onerror = function () {
+        console.log(this.error);
+    }
+
+
 }
 
 // TODO logic operations

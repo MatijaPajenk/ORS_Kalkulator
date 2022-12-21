@@ -13,6 +13,14 @@
     font-size: 1.2rem;
 }
 
+@media screen and (max-width: 1000px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
+
 .navbar {
     height: 3em;
     background-color: gold;
@@ -143,4 +151,43 @@ footer p {
     height: 8px;
     border-radius: 50%;
     background: white;
+}
+
+#right {
+    margin: 1em;
+}
+
+#table {
+    background-color: #2196F3;
+    border-collapse: collapse;
+    width: 90%;
+}
+
+th, td{
+    width: 10em;
+    padding: .2em .5em;
+    border: 2px solid black;
+}
+
+td {
+    background-color: #77ddff;
+}
+
+.btn-cell {
+    width: 10em;
+    padding: .2em .5em;
+    position: relative;
+}
+
+.btn-table {
+    border: none;
+    background-color: #333333;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    padding: .2em;
+    font-size: .8em;
+    width: 100%;
+    height: 100%;
 }
