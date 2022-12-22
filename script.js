@@ -344,6 +344,7 @@ function uploadFromFile(input) {
 
 }
 
+//TODO +/-, mod
 
 
 // TODO logic operations

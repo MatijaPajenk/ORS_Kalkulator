@@ -1,0 +1,51 @@
+ORS - 2. seminarska naloga: Kalkulator
+Avtor: Matija Pajenk, Rok Rozman Marinčič
+Mentor: Petra Povalej Bržan
+
+Program:
+
+Izberemo vrsto računala preko radio gumba, ce izberemo aritmeticno:
+    ob pritisku gumba z oznako "Vnos preko Tipkovnice" omogocimo vnos preko tipkovnice, privzeto izklopljeno
+    ce vnasamo racune rocno
+        vnesemo poljubno dolg racun v polje za racunanje, vendar upostevamo pravilnost zapisa
+    sicer
+        racune nalozimo preko gumba "choose file", ki sprejema tekstovne datoteke
+        iz izbrane datoteke prebere racune v obliki niza
+        nize doda v prvi stolpec tabele
+        v drugem stolpcu tabele je gumb "vstavi", ki vstavi izbrani racun v polje za racunanje
+    ko imamo racun v polju za racunanje zeljen racun kliknemo gumb '='
+    vredonst polja se shrani v niz
+    ce niz vsebuje oklepaje
+        resimo vrednost znotraj oklepajev
+        v nizu zamenjamo podniz z oklepaji z reseno vrednostjo
+        postopek ponovimo dokler imamo oklepaje
+    ce niz vsebuje korene
+        podniz z korenskim zapisom zamenjamo z zapisu v obliki eksponenta - x^(1/2)
+        postopek ponovimo dokler imamo korene
+    ce niz vsebuje eksponente
+        resimo vrednost ekponeta
+        v nizu zamenjamo podniz eksponeta z reseno vrednostjo
+        postopek ponovimo dokler imamo eksponente
+    ce niz vsebuje mnozenje ali deljenje
+        dokler se v nizu pojavi mnozenje ali deljenje
+            preverimo katera operacija se pojavi prej
+            ce se mnozenje 
+                resimo vrednost mnozenja
+                v nizu zamenjamo podniz zmnozka z reseno vrednostjo
+            ce se deljenje
+                resimo vrednost deljenja
+                v nizu zamnejamo podniz deljenja z reseno vrednostjo
+    ce niz vsebuje sestevanje ali odstevanje
+        dokler se v nizu pojavi sestevanje ali odstevanje
+            preverimo katera operacija se pojavi prej
+            ce se sestevanje 
+                resimo vrednost sestevanja
+                v nizu zamenjamo podniz vsote z reseno vrednostjo
+            ce se odstevanje
+                resimo vrednost odstevanja
+                v nizu zamnejamo podniz razlike z reseno vrednostjo
+    koncni rezultat izpisemo v polju za racunanje
+    
+
+Sicer izberemo Logicno
+    ...
