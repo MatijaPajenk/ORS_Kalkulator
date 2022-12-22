@@ -20,9 +20,11 @@
     <main>
         <div class="container">
             <div id="left">
+                <input type="checkbox" name="type-control" id="display-cb" checked >
+                <label for="display-cb">Vnos prek tipkovnice</label>
                 <div id="calculator">
                     <div id="display">
-                        <input type="text" name="calc-display" id="calc-display" readonly>
+                        <input type="text" name="calc-display" id="calc-display">
                     </div>
                     <div id="arithmetic-buttons">
                         <div class="row">
@@ -113,11 +115,11 @@
                         </div>
                     </div>
                 </div>
-                <label class="radio-group">Arithmetic
+                <label class="radio-group">Aritmetično računalo
                     <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
                     <span class="checkmark"></span>
                 </label>
-                <label class="radio-group">Programmer
+                <label class="radio-group">Logično računalo
                     <input type="radio" name="buttons" id="programmer-radio" value="P">
                     <span class="checkmark"></span>
                 </label>

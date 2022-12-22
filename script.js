@@ -1,5 +1,6 @@
-let arithmetic_calc = document.getElementById("arithmetic-radio");
-let programmer_calc = document.getElementById("programmer-radio");
+const arithmetic_calc = document.getElementById("arithmetic-radio");
+const programmer_calc = document.getElementById("programmer-radio");
+const readonly_checkbox = document.getElementById('display-cb');
 let continous_operator = false;
 let continous_dot = false;
 
@@ -11,6 +12,11 @@ arithmetic_calc.addEventListener('click', () => {
 programmer_calc.addEventListener('click', () => {
     document.getElementById("arithmetic-buttons").hidden = true;
     document.getElementById("programmer-buttons").hidden = false;
+})
+
+readonly_checkbox.addEventListener('change', () => {
+    const display = document.getElementById('calc-display');
+    display.toggleAttribute('readonly');
 })
 
 let isOperator = (x) => {
@@ -197,6 +203,41 @@ function compute() {
     const display = document.getElementById('calc-display');
     let equation = document.getElementById('calc-display').value;  
     if (equation.length == 0) return;
+    if (equation.includes('sqrt')) {
+        let index = equation.indexOf('sqrt');
+        console.log('index: ' + index);
+        let start = equation.indexOf('(', index);
+        console.log('start: ' + start);
+        let end = equation.indexOf(')', index);
+        console.log('end: ' + end);
+        // let slice = equation.slice(start, end + 1);
+        // console.log('slice: ' + slice);
+        equation = equation.replace('sqrt', '');
+        start -= 4;
+        end -= 3;
+        console.log('start: ' + start);
+        console.log('end: ' + end);
+        equation = equation.slice(0, end) + '^(1/2)' + equation.slice(end);
+        console.log('eq w/out sqrt: ' + equation)
+    }
+    if (equation.includes('pow')) {
+        let index = equation.indexOf('pow');
+        console.log('index: ' + index);
+        let start = equation.indexOf('(', index);
+        const end = equation.indexOf(')', index);
+        let slice = equation.slice(start+1, end);
+        console.log('slice: ' + slice);
+        slice = slice.split(',');
+        const base = slice[0];
+        const exponent = slice[1];
+        equation = equation.replace('pow', '');
+        console.log('equation replace: ' + equation); 
+        start = equation.indexOf('(', index - 3);
+        equation = equation.slice(0, start) + base + '^' + exponent + equation.slice(end);
+        console.log('eq w/out pow: ' + equation);
+    }
+
+
     if (equation.includes('(')) {
         equation = solveParentheses(equation);
         //console.log("Eqation is " + equation);
@@ -253,7 +294,7 @@ function getSolveButton(id) {
     let button = document.createElement('button');
     button.id = `eq-${id}`;
     button.classList += 'btn-table';
-    button.innerText = "Izracunaj";
+    button.innerText = "Vstavi";
     button.addEventListener('click', function () {
         let text = this.parentElement.parentElement.firstChild.innerText;
         console.log(text);
@@ -302,5 +343,7 @@ function uploadFromFile(input) {
 
 
 }
+
+
 
 // TODO logic operations
