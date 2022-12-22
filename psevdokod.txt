@@ -4,7 +4,8 @@ Mentor: Petra Povalej Bržan
 
 Program:
 
-Izberemo vrsto računala preko radio gumba, ce izberemo aritmeticno:
+Izberemo vrsto računala preko radio gumba
+ce izberemo aritmeticno:
     ob pritisku gumba z oznako "Vnos preko Tipkovnice" omogocimo vnos preko tipkovnice, privzeto izklopljeno
     ce vnasamo racune rocno
         vnesemo poljubno dolg racun v polje za racunanje, vendar upostevamo pravilnost zapisa

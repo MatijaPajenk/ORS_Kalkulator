@@ -26,7 +26,7 @@
                     <div id="display">
                         <input type="text" name="calc-display" id="calc-display">
                     </div>
-                    <div id="arithmetic-buttons">
+                    <div id="arithmetic-buttons" hidden>
                         <div class="row">
                             <input type="button" value="(" class="btn" onclick="addBtnValue(this.value);">
                             <input type="button" value=")" class="btn" onclick="addBtnValue(this.value);">
@@ -67,7 +67,11 @@
                             <input type="button" value="=" class="btn btn-equals" onclick="compute()">
                         </div>
                     </div>
-                    <div id="programmer-buttons" hidden>
+                    <div id="programmer-buttons">
+                        <div class="row">
+                            <input type="button" value="C" class="btn btn-logic-special" onclick="clearDisplay();">
+                            <button type="button" class="btn btn-logic-special" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
+                        </div>
                         <div class="row">
                             <input type="button" value="C" class="btn btn-num hex" onclick="addBtnValue(this.value);">
                             <input type="button" value="D" class="btn btn-num hex" onclick="addBtnValue(this.value);">
@@ -106,26 +110,33 @@
                                 onclick="addBtnValue(this.value);">
                             <input type="button" value="NOT" class="btn" onclick="addBtnValue(this.value);">
                         </div>
+                        <div class="row relative">
+                            <input type="button" value="BIN" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" value="OCT" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" value="DEC" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" value="HEX" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" value="=" class="btn btn-equals btn-convert" onclick="logic_compute();">
+                        </div>
                         <div class="row">
-                            <input type="button" value="BIN" class="btn" onclick="setNumberSystem('bin');">
-                            <input type="button" value="OCT" class="btn" onclick="setNumberSystem('oct');">
-                            <input type="button" value="DEC" class="btn" onclick="setNumberSystem('dec');">
-                            <input type="button" value="HEX" class="btn" onclick="setNumberSystem('hex');">
-                            <input type="button" value="=" class="btn btn-equals" onclick="">
+                            <input type="button" value="BIN" class="btn btn-out" >
+                            <input type="button" value="OCT" class="btn btn-out" >
+                            <input type="button" value="DEC" class="btn btn-out" >
+                            <input type="button" value="HEX" class="btn btn-out" >
+                            
                         </div>
                     </div>
                 </div>
                 <label class="radio-group">Aritmetično računalo
-                    <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
+                    <input type="radio" name="buttons" id="arithmetic-radio" value="A">
                     <span class="checkmark"></span>
                 </label>
                 <label class="radio-group">Logično računalo
-                    <input type="radio" name="buttons" id="programmer-radio" value="P">
+                    <input type="radio" name="buttons" id="programmer-radio" value="P" checked>
                     <span class="checkmark"></span>
                 </label>
             </div>
             <div id="right">
-                <div id="file-upoload">
+                <div id="file-upload" hidden>
                     <table id="table">
                         <thead>
                             <th>Enacba</th>

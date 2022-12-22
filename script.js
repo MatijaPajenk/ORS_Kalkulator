@@ -7,11 +7,14 @@ let continous_dot = false;
 arithmetic_calc.addEventListener('click', () => {
     document.getElementById("programmer-buttons").hidden = true;
     document.getElementById("arithmetic-buttons").hidden = false;
+    document.getElementById('file-upload').hidden = false;
+
 });
 
 programmer_calc.addEventListener('click', () => {
     document.getElementById("arithmetic-buttons").hidden = true;
     document.getElementById("programmer-buttons").hidden = false;
+    document.getElementById('file-upload').hidden = true;
 })
 
 readonly_checkbox.addEventListener('change', () => {
@@ -278,17 +281,7 @@ function compute() {
     display.value = equation;
 }
 
-function setNumberSystem(val) {
-    let all = document.getElementsByClassName('btn-num');
-    Array.from(all).forEach(el => {
-        el.style.display = 'none';
-        // console.log(el);
-    });
-    let ok = document.getElementsByClassName(val);
-    Array.from(ok).forEach(el => {
-        el.style.display = 'block';
-    });
-}
+
 
 function getSolveButton(id) {
     let button = document.createElement('button');
@@ -348,3 +341,248 @@ function uploadFromFile(input) {
 
 
 // TODO logic operations
+document.addEventListener('click', e => {
+    if (e.target.className.includes('btn-in')) {
+        const buttons = document.querySelectorAll('.btn-in');
+        buttons.forEach(btn => {
+            if (btn !== e.target) {
+                btn.classList.remove('active');
+            }
+        })
+        e.target.classList.add('active');
+    }
+    if (e.target.className.includes('btn-out')) {
+        const buttons = document.querySelectorAll('.btn-out');
+        buttons.forEach(btn => {
+            if (btn !== e.target) {
+                btn.classList.remove('active');
+            }
+        })
+        e.target.classList.add('active');
+    }
+});
+
+
+function setNumberSystemInput(btn) {
+    const programmer_calc = document.getElementById('programmer-buttons');
+    const all_btns = programmer_calc.getElementsByClassName('btn-num');
+    const val = btn.value.toLowerCase();
+    // console.log(all_btns);
+    for (let i = 0; i < all_btns.length; i++) {
+        all_btns[i].disabled = all_btns[i].classList.contains(val) ? false : true;
+    }
+}
+
+function logic_compute() {
+    const display = document.getElementById('calc-display');
+    const val = display.value;
+    const programmer_calc = document.getElementById('programmer-buttons');
+    let input = programmer_calc.querySelectorAll('.btn-in.active')[0] ?? '';
+    // console.log(input.value);
+    let output = programmer_calc.querySelectorAll('.btn-out.active')[0] ?? '';
+    // console.log(output.value);
+    if (input.length < 1 || output.length < 1) return alert('Polje za pretvorbo ni izbrano.');
+    input = input.value;
+    output = output.value;
+    let res = '';
+    if (input == 'BIN') {
+        if (output == 'BIN') return;
+        if (output == 'OCT') {
+            res = convertBinToOct(val);
+        }
+        else if (output == 'DEC') {
+            res = convertBinToDec(val);
+        }
+        else if (output == 'HEX') {
+            res = convertBinToHex(val);
+        }
+    }
+    else if (input == 'OCT') {
+        if (output == 'OCT') return;
+        if (output == 'BIN') {
+            res = convertOctToBin(val);
+        }
+        else if (output == 'DEC') {
+            res = convertOctToDec(val);
+        }
+        else if (output == 'HEX') {
+            res = convertOctToHex(val);
+        }
+    }
+    else if (input == 'DEC') {
+        if (output == 'DEC') return;
+        if (output == 'BIN') {
+            res = convertDecToBin(val);
+        }
+        else if (output == 'OCT') {
+            res = convertDecToOct(val);
+        }
+        else if (output == 'HEX') {
+            res = convertDecToHex(val);
+        }
+    }
+
+    else if (input == 'HEX') {
+        if (output == 'HEX') return;
+        if (output == 'BIN') {
+            res = convertHexToBin(val);
+        }
+        else if (output == 'OCT') {
+            res = convertHexToOct(val);
+        }
+        else if (output == 'DEC') {
+            res = convertHexToDec(val);
+        }
+    }
+
+    display.value = res;
+}
+
+function convertBinToOct(val) {
+    while (val.length % 3 !== 0) {
+        val = '0' + val;
+    }
+
+    // Split the binary number into groups of three digits
+    const groups = val.match(/.{1,3}/g);
+
+    // Convert each group to its octal equivalent
+    const octal = groups.map(group => {
+        let sum = 0;
+        for (let i = 0; i < 3; i++) {
+            sum += parseInt(group[i]) * Math.pow(2, 2 - i);
+        }
+        return sum;
+    }).join('');
+
+    return octal;
+}
+
+function convertBinToDec(val) {
+    let decimal = 0;
+    for (let i = 0; i < val.length; i++) {
+        decimal += parseInt(val[i]) * Math.pow(2, val.length - 1 - i);
+    }
+    return decimal
+}
+
+function convertBinToHex(val) {
+    while (val.length % 4 !== 0) {
+        val = '0' + val;
+    }
+
+    // Split the binary number into groups of four digits
+    const groups = val.match(/.{1,4}/g);
+
+    // Convert each group to its hexadecimal equivalent
+    const hex = groups.map(group => {
+        let sum = 0;
+        for (let i = 0; i < 4; i++) {
+            sum += parseInt(group[i]) * Math.pow(2, 3 - i);
+        }
+        return sum.toString(16).toUpperCase();
+    }).join('');
+
+    return hex;
+}
+
+function convertOctToBin(val){
+    let binary = '';
+    for (let i = 0; i < val.length; i++) {
+        const digit = parseInt(val[i]);
+        binary += digit.toString(2);
+    }
+    return binary;
+}
+
+function convertOctToDec(val) {
+    let decimal = 0;
+    for (let i = 0; i < val.length; i++) {
+        decimal += parseInt(val[i]) * Math.pow(8, val.length - 1 - i);
+    }
+    return decimal;
+}
+
+function convertOctToHex(val) {
+    while (val.length % 3 !== 0) {
+        val = '0' + val;
+    }
+
+    // Split the octal number into groups of three digits
+    const groups = val.match(/.{1,3}/g);
+
+    // Convert each group to its hexadecimal equivalent
+    const hex = groups.map(group => {
+        let sum = 0;
+        for (let i = 0; i < 3; i++) {
+            sum += parseInt(group[i]) * Math.pow(8, 2 - i);
+        }
+        return sum.toString(16).toUpperCase();
+    }).join('');
+
+    return hex;
+}
+
+function convertDecToBin(val) {
+    let binary = '';
+    while (val > 0) {
+        binary = (val % 2) + binary;
+        val = Math.floor(val / 2);
+    }
+    return binary;
+}
+
+function convertDecToOct(val) {
+    let oct = '';
+    while (val > 0) {
+        oct = (val % 8) + oct;
+        val = Math.floor(val / 8);
+    }
+    return oct;
+}
+
+function convertDecToHex(val) {
+    let hex = '';
+    while (val > 0) {
+        hex = (val % 16).toString(16).toUpperCase() + hex;
+        val = Math.floor(val / 16);
+    }
+    return hex;
+}
+
+function convertHexToBin(val) {
+    let binary = '';
+    for (let i = 0; i < val.length; i++) {
+        const digit = parseInt(val[i], 16);
+        binary += digit.toString(2);
+    }
+    return binary;
+}
+
+function convertHexToOct(val) {
+    while (val.length % 2 !== 0) {
+        val = '0' + val;
+    }
+
+    // Split the hexadecimal number into groups of two digits
+    const groups = val.match(/.{1,2}/g);
+
+    // Convert each group to its octal equivalent
+    const octal = groups.map(group => {
+        let sum = 0;
+        for (let i = 0; i < 2; i++) {
+            sum += parseInt(group[i], 16) * Math.pow(16, 1 - i);
+        }
+        return sum.toString(8);
+    }).join('');
+
+    return octal;
+}
+
+function convertHexToDec(val) {
+    let decimal = 0;
+    for (let i = 0; i < val.length; i++) {
+        decimal += parseInt(val[i], 16) * Math.pow(16, val.length - 1 - i);
+    }
+    return decimal;
+}
