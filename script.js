@@ -73,7 +73,7 @@ function solveParentheses(eq) {
     let start = 0;
 
     while (eq.indexOf('(', start) != -1) {
-        let sliceP = eq.slice(eq.indexOf('(', start), eq.indexOf(')', start)+1);
+        let sliceP = eq.slice(eq.indexOf('(', start), eq.indexOf(')', start) + 1);
         // console.log("SP sliceP: " + sliceP);
         let slice = sliceP.slice(1, sliceP.length - 1);
 
@@ -204,7 +204,7 @@ function calculate(equation) {
 function compute() {
     // get display element and value
     const display = document.getElementById('calc-display');
-    let equation = document.getElementById('calc-display').value;  
+    let equation = document.getElementById('calc-display').value;
     if (equation.length == 0) return;
     if (equation.includes('sqrt')) {
         let index = equation.indexOf('sqrt');
@@ -228,13 +228,13 @@ function compute() {
         console.log('index: ' + index);
         let start = equation.indexOf('(', index);
         const end = equation.indexOf(')', index);
-        let slice = equation.slice(start+1, end);
+        let slice = equation.slice(start + 1, end);
         console.log('slice: ' + slice);
         slice = slice.split(',');
         const base = slice[0];
         const exponent = slice[1];
         equation = equation.replace('pow', '');
-        console.log('equation replace: ' + equation); 
+        console.log('equation replace: ' + equation);
         start = equation.indexOf('(', index - 3);
         equation = equation.slice(0, start) + base + '^' + exponent + equation.slice(end);
         console.log('eq w/out pow: ' + equation);
@@ -276,7 +276,7 @@ function compute() {
         }
         equation = calculate(equation);
     }
-    
+
 
     display.value = equation;
 }
@@ -377,212 +377,248 @@ function logic_compute() {
     const display = document.getElementById('calc-display');
     const val = display.value;
     const programmer_calc = document.getElementById('programmer-buttons');
-    let input = programmer_calc.querySelectorAll('.btn-in.active')[0] ?? '';
+    let input = programmer_calc.querySelectorAll('.btn-in.active')[0].value ?? '';
     // console.log(input.value);
-    let output = programmer_calc.querySelectorAll('.btn-out.active')[0] ?? '';
+    let output = programmer_calc.querySelectorAll('.btn-out.active')[0].value ?? '';
     // console.log(output.value);
-    if (input.length < 1 || output.length < 1) return alert('Polje za pretvorbo ni izbrano.');
-    input = input.value;
-    output = output.value;
-    let res = '';
-    if (input == 'BIN') {
-        if (output == 'BIN') return;
-        if (output == 'OCT') {
-            res = convertBinToOct(val);
-        }
-        else if (output == 'DEC') {
-            res = convertBinToDec(val);
-        }
-        else if (output == 'HEX') {
-            res = convertBinToHex(val);
-        }
-    }
-    else if (input == 'OCT') {
-        if (output == 'OCT') return;
-        if (output == 'BIN') {
-            res = convertOctToBin(val);
-        }
-        else if (output == 'DEC') {
-            res = convertOctToDec(val);
-        }
-        else if (output == 'HEX') {
-            res = convertOctToHex(val);
-        }
-    }
-    else if (input == 'DEC') {
-        if (output == 'DEC') return;
-        if (output == 'BIN') {
-            res = convertDecToBin(val);
-        }
-        else if (output == 'OCT') {
-            res = convertDecToOct(val);
-        }
-        else if (output == 'HEX') {
-            res = convertDecToHex(val);
-        }
-    }
+    let res;
 
-    else if (input == 'HEX') {
-        if (output == 'HEX') return;
-        if (output == 'BIN') {
-            res = convertHexToBin(val);
-        }
-        else if (output == 'OCT') {
-            res = convertHexToOct(val);
-        }
-        else if (output == 'DEC') {
-            res = convertHexToDec(val);
-        }
-    }
+    if (val.includes('AND') || val.includes('OR') || val.includes('XOR'))
+        res = solve_logic(val);
+    console.log("Solved logic res: " + res);
+
+    res = convertInput(res, input, output);
 
     display.value = res;
 }
 
-function convertBinToOct(val) {
-    while (val.length % 3 !== 0) {
-        val = '0' + val;
+function not(num) {
+    let binStr = num.toString(2);
+
+    // Negate all the bits
+    let negatedBinStr = '';
+    for (let i = 0; i < binStr.length; i++) {
+        negatedBinStr += (binStr[i] === '0') ? '1' : '0';
     }
 
-    // Split the binary number into groups of three digits
-    const groups = val.match(/.{1,3}/g);
+    // Convert the negated binary string back to a number and return it
+    return parseInt(negatedBinStr, 2);
+}
 
-    // Convert each group to its octal equivalent
-    const octal = groups.map(group => {
-        let sum = 0;
-        for (let i = 0; i < 3; i++) {
-            sum += parseInt(group[i]) * Math.pow(2, 2 - i);
+function and(num1, num2) {
+    console.log('AND num1: ' + num1);
+    console.log('AND num2: ' + num2);
+    num1 = num1.toString();
+    num2 = num2.toString();
+
+    let len1 = num1.length;
+    let len2 = num2.length;
+
+    console.log('len1: ' + len1);
+    console.log('len2: ' + len2);
+
+    // If one of the numbers is shorter, add zeros to the start of it
+    if (len1 > len2) {
+        num2 = '0'.repeat(len1 - len2) + num2;
+    } else if (len2 > len1) {
+        num1 = '0'.repeat(len2 - len1) + num1;
+    }
+
+    console.log('Num1: ' + num1);
+    console.log('Num2: ' + num2)
+    // AND the bits together
+    let resultBinStr = '';
+    for (let i = 0; i < len1; i++) {
+        console.log('num1 at i: ' + num1[i]);
+        console.log('num2 at i: ' + num2[i]);
+        resultBinStr += (num1[i] == '1' && num2[i] == '1') ? '1' : '0';
+    }
+    console.log('resbinstr: ' + resultBinStr);
+    // Convert the resulting binary string back to a number and return it
+    return resultBinStr;
+}
+
+function logic_operation(num1, num2, op) {
+    num1 = num1.toString();
+    num2 = num2.toString();
+    const len1 = num1.length;
+    const len2 = num2.length;
+
+    if (len1 > len2) {
+        num2 = '0'.repeat(len1 - len2) + num2;
+    } else if (len2 > len1) {
+        num1 = '0'.repeat(len2 - len1) + num1;
+    }
+
+    let res = '';
+    for (let i = 0; i < len1; i++) {
+        if (op == 'AND') {
+            res += (num1[i] == '1' && num2[i] == '1') ? '1' : '0';
+        } else if (op == 'OR') {
+            res += (num1[i] == '1' || num2[i] == '1') ? '1' : '0';
+        } else if (op == 'XOR') {
+            res += (num1[i] != num2[i]) ? '1' : '0';
         }
-        return sum;
-    }).join('');
-
-    return octal;
+    }
+    return res;
 }
 
-function convertBinToDec(val) {
-    let decimal = 0;
-    for (let i = 0; i < val.length; i++) {
-        decimal += parseInt(val[i]) * Math.pow(2, val.length - 1 - i);
+function or(num1, num2) {
+    // Convert the numbers to binary strings
+    let binStr1 = num1.toString(2);
+    let binStr2 = num2.toString(2);
+
+    let len1 = binStr1.length;
+    let len2 = binStr1.length;
+
+    // If one of the numbers is shorter, add zeros to the start of it
+    if (len1 > len2) {
+        binStr2 = '0'.repeat(len1 - len2) + binStr2;
+    } else if (len2 > len1) {
+        binStr1 = '0'.repeat(len2 - len1) + binStr1;
     }
-    return decimal
+
+    // AND the bits together
+    let resultBinStr = '';
+    for (let i = 0; i < binStr1.length; i++) {
+        resultBinStr += (binStr1[i] === '1' || binStr2[i] === '1') ? '1' : '0';
+    }
+
+    // Convert the resulting binary string back to a number and return it
+    return parseInt(resultBinStr, 2);
 }
 
-function convertBinToHex(val) {
-    while (val.length % 4 !== 0) {
-        val = '0' + val;
+function xor(num1, num2) {
+    // Convert the numbers to binary strings
+    let binStr1 = num1.toString(2);
+    let binStr2 = num2.toString(2);
+
+    let len1 = binStr1.length;
+    let len2 = binStr1.length;
+
+    // If one of the numbers is shorter, add zeros to the start of it
+    if (len1 > len2) {
+        binStr2 = '0'.repeat(len1 - len2) + binStr2;
+    } else if (len2 > len1) {
+        binStr1 = '0'.repeat(len2 - len1) + binStr1;
     }
 
-    // Split the binary number into groups of four digits
-    const groups = val.match(/.{1,4}/g);
+    // AND the bits together
+    let resultBinStr = '';
+    for (let i = 0; i < binStr1.length; i++) {
+        resultBinStr += (binStr1[i] !== binStr2[i]) ? '1' : '0';
+    }
 
-    // Convert each group to its hexadecimal equivalent
-    const hex = groups.map(group => {
-        let sum = 0;
-        for (let i = 0; i < 4; i++) {
-            sum += parseInt(group[i]) * Math.pow(2, 3 - i);
+    // Convert the resulting binary string back to a number and return it
+    return parseInt(resultBinStr, 2);
+}
+
+function solve_logic(equation) {
+    console.log("Calculate logic; \nEqations is: " + equation)
+
+    let start = 0;
+    while (equation.includes('NOT ')) {
+        const index = equation.indexOf('NOT ', start) + 4;
+        console.log('NOT index: ' + index);
+        let num = '';
+        for (let i = index; equation[i] != ' ' && i < equation.length; i++) {
+            num += equation[i];
         }
-        return sum.toString(16).toUpperCase();
-    }).join('');
-
-    return hex;
-}
-
-function convertOctToBin(val){
-    let binary = '';
-    for (let i = 0; i < val.length; i++) {
-        const digit = parseInt(val[i]);
-        binary += digit.toString(2);
-    }
-    return binary;
-}
-
-function convertOctToDec(val) {
-    let decimal = 0;
-    for (let i = 0; i < val.length; i++) {
-        decimal += parseInt(val[i]) * Math.pow(8, val.length - 1 - i);
-    }
-    return decimal;
-}
-
-function convertOctToHex(val) {
-    while (val.length % 3 !== 0) {
-        val = '0' + val;
+        console.log('Num: ' + num);
+        not_num = not(num).toString(2);
+        console.log('Not num: ' + not_num);
+        equation = equation.replace(`NOT ${num}`, not_num);
     }
 
-    // Split the octal number into groups of three digits
-    const groups = val.match(/.{1,3}/g);
+    console.log('Without not: ' + equation);
 
-    // Convert each group to its hexadecimal equivalent
-    const hex = groups.map(group => {
-        let sum = 0;
-        for (let i = 0; i < 3; i++) {
-            sum += parseInt(group[i]) * Math.pow(8, 2 - i);
+    let numbers = [];
+    let operations = [];
+    let tokens = equation.split(' ');
+    for (let i = 0; i < tokens.length; i++) {
+        if (!isNaN(tokens[i])) {
+            numbers.push(tokens[i].toString(2));
+        } else {
+            operations.push(tokens[i]);
         }
-        return sum.toString(16).toUpperCase();
-    }).join('');
+    }
+    console.log('Numbers: ' + numbers);
+    console.log('Operations: ' + operations);
 
-    return hex;
+    let res = parseFloat(numbers[0]);
+    console.log("x: " + res);
+    for (let i = 0; i < numbers.length - 1; i++) {
+        if (numbers[i] == NaN) continue;
+        let y = parseFloat(numbers[i + 1]);
+        console.log('y: ' + y);
+        let op = operations[i];
+        console.log('op: ' + op);
+        res = logic_operation(res, y, op);
+    }
+    console.log("partial res: " + res);
+
+
+    return res;
 }
 
-function convertDecToBin(val) {
-    let binary = '';
-    while (val > 0) {
-        binary = (val % 2) + binary;
-        val = Math.floor(val / 2);
-    }
-    return binary;
-}
-
-function convertDecToOct(val) {
-    let oct = '';
-    while (val > 0) {
-        oct = (val % 8) + oct;
-        val = Math.floor(val / 8);
-    }
-    return oct;
-}
-
-function convertDecToHex(val) {
-    let hex = '';
-    while (val > 0) {
-        hex = (val % 16).toString(16).toUpperCase() + hex;
-        val = Math.floor(val / 16);
-    }
-    return hex;
-}
-
-function convertHexToBin(val) {
-    let binary = '';
-    for (let i = 0; i < val.length; i++) {
-        const digit = parseInt(val[i], 16);
-        binary += digit.toString(2);
-    }
-    return binary;
-}
-
-function convertHexToOct(val) {
-    while (val.length % 2 !== 0) {
-        val = '0' + val;
-    }
-
-    // Split the hexadecimal number into groups of two digits
-    const groups = val.match(/.{1,2}/g);
-
-    // Convert each group to its octal equivalent
-    const octal = groups.map(group => {
-        let sum = 0;
-        for (let i = 0; i < 2; i++) {
-            sum += parseInt(group[i], 16) * Math.pow(16, 1 - i);
+function convertInput(val, input, output) {
+    console.log("convert input val: " + val);
+    let res = '';
+    if (input == 'BIN') {
+        if (output == 'BIN') return val;
+        if (output == 'OCT') {
+            res = convert(val, 2, 8);
         }
-        return sum.toString(8);
-    }).join('');
+        else if (output == 'DEC') {
+            res = convert(val, 2, 10);
+        }
+        else if (output == 'HEX') {
+            res = convert(val, 2, 16).toUpperCase();
+        }
+    }
+    else if (input == 'OCT') {
+        if (output == 'OCT') return val;
+        if (output == 'BIN') {
+            res = convert(val, 8, 2);
+        }
+        else if (output == 'DEC') {
+            res = convert(val, 8, 10);
+        }
+        else if (output == 'HEX') {
+            res = convert(val, 8, 16).toUpperCase();
+        }
+    }
+    else if (input == 'DEC') {
+        if (output == 'DEC') return val;
+        if (output == 'BIN') {
+            res = convert(val, 10, 2);
+        }
+        else if (output == 'OCT') {
+            res = convert(val, 10, 8);
+        }
+        else if (output == 'HEX') {
+            res = convert(val, 10, 16).toUpperCase();
+        }
+    }
 
-    return octal;
+    else if (input == 'HEX') {
+        if (output == 'HEX') return val;
+        if (output == 'BIN') {
+            res = convert(val, 16, 2);
+        }
+        else if (output == 'OCT') {
+            res = convert(val, 16, 8);
+        }
+        else if (output == 'DEC') {
+            res = convert(val, 16, 10);
+        }
+    }
+
+    console.log("Convert input res: " + res);
+    return res;
+
 }
 
-function convertHexToDec(val) {
-    let decimal = 0;
-    for (let i = 0; i < val.length; i++) {
-        decimal += parseInt(val[i], 16) * Math.pow(16, val.length - 1 - i);
-    }
-    return decimal;
+function convert(val, from, to) {
+    return parseInt(val, from).toString(to);
 }
