@@ -2,12 +2,12 @@ const arithmetic_calc = document.getElementById("arithmetic-radio");
 const programmer_calc = document.getElementById("programmer-radio");
 const readonly_checkbox = document.getElementById('display-cb');
 let continous_operator = false;
-let continous_dot = false;
 
 arithmetic_calc.addEventListener('click', () => {
     document.getElementById("programmer-buttons").hidden = true;
     document.getElementById("arithmetic-buttons").hidden = false;
     document.getElementById('file-upload').hidden = false;
+    document.getElementById('file-upload-logic').hidden = true;
 
 });
 
@@ -15,6 +15,8 @@ programmer_calc.addEventListener('click', () => {
     document.getElementById("arithmetic-buttons").hidden = true;
     document.getElementById("programmer-buttons").hidden = false;
     document.getElementById('file-upload').hidden = true;
+    document.getElementById('file-upload-logic').hidden = false;
+
 })
 
 readonly_checkbox.addEventListener('change', () => {
@@ -26,15 +28,11 @@ let isOperator = (x) => {
     return x == '+' || x == '-' || x == '*' || x == '/' || x == '%' || x == '^';
 }
 
-
 function addBtnValue(val) {
     const display = document.getElementById('calc-display');
-
     if (display.value[0] == '0' && display.value.length == 1 && val != '.') {
         return;
     }
-
-    // Repeating operator check
     if (continous_operator && isOperator(val)) {
         deleteDisplayValue();
         display.value += val;
@@ -46,8 +44,6 @@ function addBtnValue(val) {
     else {
         continous_operator = false;
     }
-    //TODO fix dot placement
-
     display.value += val;
 }
 
@@ -68,35 +64,28 @@ function deleteDisplayValue() {
 
 function solveParentheses(eq) {
     let equation = eq;
-    // console.log("SP equation: " + equation);
-
     let start = 0;
 
     while (eq.indexOf('(', start) != -1) {
         let sliceP = eq.slice(eq.indexOf('(', start), eq.indexOf(')', start) + 1);
-        // console.log("SP sliceP: " + sliceP);
         let slice = sliceP.slice(1, sliceP.length - 1);
-
-        // console.log("SP slice: " + slice);
         slice = calculate(slice);
-        // console.log("SP slice: " + slice);
         equation = equation.replace(sliceP, slice);
-
         start = eq.indexOf(')', start) + 1;
     }
-    // console.log("SP return eqation: " + equation);
-    return equation;
 
+    return equation;
 }
 
 function solveExperssions(eq, op) {
-    console.log("SE; eq start: " + eq);
     let equations = [];
     let start = 0;
+
     while (eq.indexOf(op, start) != -1) {
         let pivot = eq.indexOf(op, start);
         let left = '';
         let right = '';
+
         for (let i = 0; i < pivot; i++) {
             if (isOperator(eq[i])) {
                 left = '';
@@ -105,41 +94,32 @@ function solveExperssions(eq, op) {
                 left += eq[i];
             }
         }
+
         for (let i = pivot + 1; i < eq.length; i++) {
             if (isOperator(eq[i])) {
                 break;
             }
             right += eq[i];
         }
-        // console.log(`Left: ${left}`);
-        // console.log(`Right: ${right}`);
+
         equations.push(left + op + right);
         start = eq.indexOf(op, start) + 1;
     }
-    // console.log(`Partial equation: ${equations}`);
+
     res = [];
     equations.forEach(x => {
         let y = calculate(x);
         res.push(y);
         eq = eq.replace(x, y);
     })
-    console.log('New equaitons: ' + eq);
     return eq;
 }
 
-function solveMulDivMod() {
-
-}
-
-function solveAddSub() {
-
-}
-
 function calculate(equation) {
-    console.log("Calculate; Eqations is: " + equation)
     let numbers = [];
     let operations = [];
     let num = '';
+
     for (let i = 0; i < equation.length; i++) {
         if (isOperator(equation[i])) {
             if (equation[i] == '-' && isNaN(equation[i - 1])) {
@@ -147,7 +127,7 @@ function calculate(equation) {
                 continue;
             }
             if (num.length > 0) {
-                // console.log("Num to push: " + num);
+
                 numbers.push(num);
                 num = '';
             }
@@ -157,22 +137,18 @@ function calculate(equation) {
             num += equation[i];
         }
         if (i == equation.length - 1) {
-            // console.log("Num to push: " + num);
+
             numbers.push(num);
             num = '';
         }
     }
-    // console.log("Calculate(numbers): " + numbers);
-    // console.log("calculate operators: " + operations);
 
     let res = parseFloat(numbers[0]);
-    console.log("x: " + res);
+
     for (let i = 0; i < numbers.length - 1; i++) {
         if (numbers[i] == NaN) continue;
         let y = parseFloat(numbers[i + 1]);
-        console.log('y: ' + y);
         let op = operations[i];
-        console.log('op: ' + op);
         switch (op) {
             case '+':
                 res += y;
@@ -195,59 +171,42 @@ function calculate(equation) {
             default:
                 break;
         }
-        console.log("partial res: " + res);
+
     }
     Math.fround(res);
     return res;
 }
 
 function compute() {
-    // get display element and value
     const display = document.getElementById('calc-display');
     let equation = document.getElementById('calc-display').value;
     if (equation.length == 0) return;
     if (equation.includes('sqrt')) {
         let index = equation.indexOf('sqrt');
-        console.log('index: ' + index);
         let start = equation.indexOf('(', index);
-        console.log('start: ' + start);
         let end = equation.indexOf(')', index);
-        console.log('end: ' + end);
-        // let slice = equation.slice(start, end + 1);
-        // console.log('slice: ' + slice);
         equation = equation.replace('sqrt', '');
         start -= 4;
         end -= 3;
-        console.log('start: ' + start);
-        console.log('end: ' + end);
         equation = equation.slice(0, end) + '^(1/2)' + equation.slice(end);
-        console.log('eq w/out sqrt: ' + equation)
     }
     if (equation.includes('pow')) {
         let index = equation.indexOf('pow');
-        console.log('index: ' + index);
         let start = equation.indexOf('(', index);
         const end = equation.indexOf(')', index);
         let slice = equation.slice(start + 1, end);
-        console.log('slice: ' + slice);
         slice = slice.split(',');
         const base = slice[0];
         const exponent = slice[1];
         equation = equation.replace('pow', '');
-        console.log('equation replace: ' + equation);
         start = equation.indexOf('(', index - 3);
         equation = equation.slice(0, start) + base + '^' + exponent + equation.slice(end);
-        console.log('eq w/out pow: ' + equation);
     }
-
-
     if (equation.includes('(')) {
         equation = solveParentheses(equation);
-        //console.log("Eqation is " + equation);
     }
 
     if (isNaN(equation)) {
-
         if (equation.includes('^')) {
             equation = solveExperssions(equation, '^');
         }
@@ -276,12 +235,8 @@ function compute() {
         }
         equation = calculate(equation);
     }
-
-
     display.value = equation;
 }
-
-
 
 function getSolveButton(id) {
     let button = document.createElement('button');
@@ -290,7 +245,6 @@ function getSolveButton(id) {
     button.innerText = "Vstavi";
     button.addEventListener('click', function () {
         let text = this.parentElement.parentElement.firstChild.innerText;
-        console.log(text);
         document.getElementById('calc-display').value = text;
     })
     return button;
@@ -298,19 +252,14 @@ function getSolveButton(id) {
 
 function uploadFromFile(input) {
     let file = input.files[0];
-    alert(`File name: ${file.name}`);
-    // alert(`Last modified: ${file.lastModified}`);
-
+    alert(`Datoteka: ${file.name}`);
     let reader = new FileReader();
     let text;
     reader.readAsText(file);
     reader.onload = function () {
         let tbody = document.getElementById('tbody');
         let id = 0;
-        console.log(this.result);
         text = this.result.split('\r\n');
-        console.log("Before");
-        console.log(text);
         text.forEach(x => {
             x = x.replaceAll(' ', '');
             let row = document.createElement('tr');
@@ -322,25 +271,14 @@ function uploadFromFile(input) {
             row.appendChild(text_cell);
             row.appendChild(btn_cell);
             tbody.appendChild(row);
-            console.log(x);
             id++;
         })
-        console.log("After");
-        console.log(text);
-
-
     }
     reader.onerror = function () {
-        console.log(this.error);
+        alert('Napaka pri nalaganju datoteke.');
     }
-
-
 }
 
-//TODO +/-, mod
-
-
-// TODO logic operations
 document.addEventListener('click', e => {
     if (e.target.className.includes('btn-in')) {
         const buttons = document.querySelectorAll('.btn-in');
@@ -362,12 +300,10 @@ document.addEventListener('click', e => {
     }
 });
 
-
 function setNumberSystemInput(btn) {
     const programmer_calc = document.getElementById('programmer-buttons');
     const all_btns = programmer_calc.getElementsByClassName('btn-num');
     const val = btn.value.toLowerCase();
-    // console.log(all_btns);
     for (let i = 0; i < all_btns.length; i++) {
         all_btns[i].disabled = all_btns[i].classList.contains(val) ? false : true;
     }
@@ -378,64 +314,23 @@ function logic_compute() {
     const val = display.value;
     const programmer_calc = document.getElementById('programmer-buttons');
     let input = programmer_calc.querySelectorAll('.btn-in.active')[0].value ?? '';
-    // console.log(input.value);
     let output = programmer_calc.querySelectorAll('.btn-out.active')[0].value ?? '';
-    // console.log(output.value);
-    let res;
-
-    if (val.includes('AND') || val.includes('OR') || val.includes('XOR'))
+    let res = val;
+    if (val.includes('AND') || val.includes('OR') || val.includes('XOR')) {
         res = solve_logic(val);
-    console.log("Solved logic res: " + res);
 
+    }
     res = convertInput(res, input, output);
-
     display.value = res;
 }
 
 function not(num) {
     let binStr = num.toString(2);
-
-    // Negate all the bits
     let negatedBinStr = '';
     for (let i = 0; i < binStr.length; i++) {
         negatedBinStr += (binStr[i] === '0') ? '1' : '0';
     }
-
-    // Convert the negated binary string back to a number and return it
     return parseInt(negatedBinStr, 2);
-}
-
-function and(num1, num2) {
-    console.log('AND num1: ' + num1);
-    console.log('AND num2: ' + num2);
-    num1 = num1.toString();
-    num2 = num2.toString();
-
-    let len1 = num1.length;
-    let len2 = num2.length;
-
-    console.log('len1: ' + len1);
-    console.log('len2: ' + len2);
-
-    // If one of the numbers is shorter, add zeros to the start of it
-    if (len1 > len2) {
-        num2 = '0'.repeat(len1 - len2) + num2;
-    } else if (len2 > len1) {
-        num1 = '0'.repeat(len2 - len1) + num1;
-    }
-
-    console.log('Num1: ' + num1);
-    console.log('Num2: ' + num2)
-    // AND the bits together
-    let resultBinStr = '';
-    for (let i = 0; i < len1; i++) {
-        console.log('num1 at i: ' + num1[i]);
-        console.log('num2 at i: ' + num2[i]);
-        resultBinStr += (num1[i] == '1' && num2[i] == '1') ? '1' : '0';
-    }
-    console.log('resbinstr: ' + resultBinStr);
-    // Convert the resulting binary string back to a number and return it
-    return resultBinStr;
 }
 
 function logic_operation(num1, num2, op) {
@@ -463,74 +358,17 @@ function logic_operation(num1, num2, op) {
     return res;
 }
 
-function or(num1, num2) {
-    // Convert the numbers to binary strings
-    let binStr1 = num1.toString(2);
-    let binStr2 = num2.toString(2);
-
-    let len1 = binStr1.length;
-    let len2 = binStr1.length;
-
-    // If one of the numbers is shorter, add zeros to the start of it
-    if (len1 > len2) {
-        binStr2 = '0'.repeat(len1 - len2) + binStr2;
-    } else if (len2 > len1) {
-        binStr1 = '0'.repeat(len2 - len1) + binStr1;
-    }
-
-    // AND the bits together
-    let resultBinStr = '';
-    for (let i = 0; i < binStr1.length; i++) {
-        resultBinStr += (binStr1[i] === '1' || binStr2[i] === '1') ? '1' : '0';
-    }
-
-    // Convert the resulting binary string back to a number and return it
-    return parseInt(resultBinStr, 2);
-}
-
-function xor(num1, num2) {
-    // Convert the numbers to binary strings
-    let binStr1 = num1.toString(2);
-    let binStr2 = num2.toString(2);
-
-    let len1 = binStr1.length;
-    let len2 = binStr1.length;
-
-    // If one of the numbers is shorter, add zeros to the start of it
-    if (len1 > len2) {
-        binStr2 = '0'.repeat(len1 - len2) + binStr2;
-    } else if (len2 > len1) {
-        binStr1 = '0'.repeat(len2 - len1) + binStr1;
-    }
-
-    // AND the bits together
-    let resultBinStr = '';
-    for (let i = 0; i < binStr1.length; i++) {
-        resultBinStr += (binStr1[i] !== binStr2[i]) ? '1' : '0';
-    }
-
-    // Convert the resulting binary string back to a number and return it
-    return parseInt(resultBinStr, 2);
-}
-
 function solve_logic(equation) {
-    console.log("Calculate logic; \nEqations is: " + equation)
-
     let start = 0;
     while (equation.includes('NOT ')) {
         const index = equation.indexOf('NOT ', start) + 4;
-        console.log('NOT index: ' + index);
         let num = '';
         for (let i = index; equation[i] != ' ' && i < equation.length; i++) {
             num += equation[i];
         }
-        console.log('Num: ' + num);
         not_num = not(num).toString(2);
-        console.log('Not num: ' + not_num);
         equation = equation.replace(`NOT ${num}`, not_num);
     }
-
-    console.log('Without not: ' + equation);
 
     let numbers = [];
     let operations = [];
@@ -542,27 +380,20 @@ function solve_logic(equation) {
             operations.push(tokens[i]);
         }
     }
-    console.log('Numbers: ' + numbers);
-    console.log('Operations: ' + operations);
 
     let res = parseFloat(numbers[0]);
-    console.log("x: " + res);
     for (let i = 0; i < numbers.length - 1; i++) {
         if (numbers[i] == NaN) continue;
         let y = parseFloat(numbers[i + 1]);
-        console.log('y: ' + y);
+
         let op = operations[i];
-        console.log('op: ' + op);
+
         res = logic_operation(res, y, op);
     }
-    console.log("partial res: " + res);
-
-
     return res;
 }
 
 function convertInput(val, input, output) {
-    console.log("convert input val: " + val);
     let res = '';
     if (input == 'BIN') {
         if (output == 'BIN') return val;
@@ -600,7 +431,6 @@ function convertInput(val, input, output) {
             res = convert(val, 10, 16).toUpperCase();
         }
     }
-
     else if (input == 'HEX') {
         if (output == 'HEX') return val;
         if (output == 'BIN') {
@@ -613,12 +443,54 @@ function convertInput(val, input, output) {
             res = convert(val, 16, 10);
         }
     }
-
-    console.log("Convert input res: " + res);
     return res;
-
 }
 
 function convert(val, from, to) {
     return parseInt(val, from).toString(to);
+}
+
+function getSolveButtonLogic(id) {
+    let button = document.createElement('button');
+    button.id = `lo-${id}`;
+    button.classList += 'btn-table';
+    button.innerText = "Vstavi";
+    button.addEventListener('click', function () {
+        let tokens = this.parentElement.parentElement.firstChild.innerText.split(';');
+        const input = document.getElementsByName(`IN-${tokens[0]}`)[0];
+        input.click();
+        document.getElementById('calc-display').value = tokens[1].toString();
+        const output = document.getElementsByName(`OUT-${tokens[2]}`)[0];
+        output.click();
+    })
+    return button;
+}
+
+function uploadFromFileLogic(input) {
+    let file = input.files[0];
+    alert(`Datoteka: ${file.name}`);
+    let reader = new FileReader();
+    let text;
+    reader.readAsText(file);
+    reader.onload = function () {
+        let tbody = document.getElementById('tbody-logic');
+        tbody.innerHTML = '';
+        let id = 0;
+        text = this.result.split('\r\n');
+        text.forEach(x => {
+            let row = document.createElement('tr');
+            let text_cell = document.createElement('td');
+            text_cell.innerText = x;
+            let btn_cell = document.createElement('td');
+            btn_cell.classList += 'btn-cell';
+            btn_cell.appendChild(getSolveButtonLogic(id));
+            row.appendChild(text_cell);
+            row.appendChild(btn_cell);
+            tbody.appendChild(row);
+            id++;
+        })
+    }
+    reader.onerror = function () {
+        alert('Napaka pri nalaganju datoteke.');
+    }
 }

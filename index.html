@@ -111,17 +111,17 @@
                             <input type="button" value="NOT " class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row relative">
-                            <input type="button" value="BIN" class="btn btn-in" onclick="setNumberSystemInput(this);">
-                            <input type="button" value="OCT" class="btn btn-in" onclick="setNumberSystemInput(this);">
-                            <input type="button" value="DEC" class="btn btn-in" onclick="setNumberSystemInput(this);">
-                            <input type="button" value="HEX" class="btn btn-in active" onclick="setNumberSystemInput(this);">
+                            <input type="button" name="IN-BIN" value="BIN" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" name="IN-OCT" value="OCT" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" name="IN-DEC" value="DEC" class="btn btn-in" onclick="setNumberSystemInput(this);">
+                            <input type="button" name="IN-HEX" value="HEX" class="btn btn-in active" onclick="setNumberSystemInput(this);">
                             <input type="button" value="=" class="btn btn-equals btn-convert" onclick="logic_compute();">
                         </div>
                         <div class="row">
-                            <input type="button" value="BIN" class="btn btn-out" >
-                            <input type="button" value="OCT" class="btn btn-out" >
-                            <input type="button" value="DEC" class="btn btn-out" >
-                            <input type="button" value="HEX" class="btn btn-out active" >
+                            <input type="button" name="OUT-BIN" value="BIN" class="btn btn-out" >
+                            <input type="button" name="OUT-OCT" value="OCT" class="btn btn-out" >
+                            <input type="button" name="OUT-DEC" value="DEC" class="btn btn-out" >
+                            <input type="button" name="OUT-HEX" value="HEX" class="btn btn-out active" >
                             
                         </div>
                     </div>
@@ -150,6 +150,25 @@
                     <div id="controls">
                         <label for="uploadFile"><h2>Nalozi enacbe</h2></label>
                         <input type="file" name="uploadFile" id="uploadFile" accept=".txt" onchange="uploadFromFile(this);">
+                        <br>
+                    </div>
+                </div>
+                <div id="file-upload-logic">
+                    <table id="table">
+                        <thead>
+                            <th>Enacba</th>
+                            <th>Resi</th>
+                        </thead>
+                        <tbody id="tbody-logic">
+                
+                        </tbody>
+                    </table>
+                    <br>
+                    <div id="controls-logic">
+                        <label for="uploadFileLogic">
+                            <h2>Nalozi enacbe</h2>
+                        </label>
+                        <input type="file" name="uploadFileLogic" id="uploadFileLogic" accept=".txt" onchange="uploadFromFileLogic(this);">
                         <br>
                     </div>
                 </div>
