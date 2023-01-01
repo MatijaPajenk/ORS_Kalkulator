@@ -1,9 +1,7 @@
-const arithmetic_calc = document.getElementById("arithmetic-radio");
-const programmer_calc = document.getElementById("programmer-radio");
-const readonly_checkbox = document.getElementById('display-cb');
 let continous_operator = false;
 
-arithmetic_calc.addEventListener('click', () => {
+// Nastavi 'click' dogodek na radio gumb za aritmetično računalo
+document.getElementById("arithmetic-radio").addEventListener('click', () => {
     document.getElementById("programmer-buttons").hidden = true;
     document.getElementById("arithmetic-buttons").hidden = false;
     document.getElementById('file-upload').hidden = false;
@@ -11,7 +9,8 @@ arithmetic_calc.addEventListener('click', () => {
 
 });
 
-programmer_calc.addEventListener('click', () => {
+// Nastavi 'click' dogodek na radio gumb za logično računalo
+document.getElementById("programmer-radio").addEventListener('click', () => {
     document.getElementById("arithmetic-buttons").hidden = true;
     document.getElementById("programmer-buttons").hidden = false;
     document.getElementById('file-upload').hidden = true;
@@ -19,15 +18,18 @@ programmer_calc.addEventListener('click', () => {
 
 })
 
-readonly_checkbox.addEventListener('change', () => {
+// Nastavi 'change' event za gumb 'vnos preko tipkovnice', da omogoči oz. onemogoči funkcijo
+document.getElementById('display-cb').addEventListener('change', () => {
     const display = document.getElementById('calc-display');
     display.toggleAttribute('readonly');
 })
 
+// Preveri, če je vhodni parameter operator 
 let isOperator = (x) => {
     return x == '+' || x == '-' || x == '*' || x == '/' || x == '%' || x == '^';
 }
 
+// Doda vrednost gumba v polje za računanje
 function addBtnValue(val) {
     const display = document.getElementById('calc-display');
     if (display.value[0] == '0' && display.value.length == 1 && val != '.') {
@@ -47,21 +49,25 @@ function addBtnValue(val) {
     display.value += val;
 }
 
+// Doda sintakso za računanje korenov
 function addSqrtValue() {
     const display = document.getElementById('calc-display');
     display.value += "^(1/2)";
 }
 
+// Počisti polje za računanje
 function clearDisplay() {
     document.getElementById('calc-display').value = "";
 }
 
+// Odstrani zadnji znak v polju za računanje
 function deleteDisplayValue() {
     let value = document.getElementById('calc-display').value;
     value = value.slice(0, -1);
     document.getElementById('calc-display').value = value;
 }
 
+// Reši račun znotraj okepajev
 function solveParentheses(eq) {
     let equation = eq;
     let start = 0;
@@ -77,7 +83,8 @@ function solveParentheses(eq) {
     return equation;
 }
 
-function solveExperssions(eq, op) {
+// Zračuna vrednost izraza za specifično računsko operacijo, ki je podana kot 2. parameter 
+function solveExpressions(eq, op) {
     let equations = [];
     let start = 0;
 
@@ -115,6 +122,7 @@ function solveExperssions(eq, op) {
     return eq;
 }
 
+// Zračuna vrednost izraza
 function calculate(equation) {
     let numbers = [];
     let operations = [];
@@ -177,6 +185,7 @@ function calculate(equation) {
     return res;
 }
 
+// Funkcija, ki se pokliče ob pritisku na gumb '=', ki razporedi pravilni vrsti red operacij pri aritmetičnem računalu
 function compute() {
     const display = document.getElementById('calc-display');
     let equation = document.getElementById('calc-display').value;
@@ -208,36 +217,37 @@ function compute() {
 
     if (isNaN(equation)) {
         if (equation.includes('^')) {
-            equation = solveExperssions(equation, '^');
+            equation = solveExpressions(equation, '^');
         }
         if (equation.includes('*') || equation.includes('/')) {
             let mul = equation.indexOf('*');
             let div = equation.indexOf('/');
             if (mul != -1 && div != -1) {
                 if (mul < div) {
-                    equation = solveExperssions(equation, '*');
-                    equation = solveExperssions(equation, '/');
+                    equation = solveExpressions(equation, '*');
+                    equation = solveExpressions(equation, '/');
                 }
                 else {
-                    equation = solveExperssions(equation, '/');
-                    equation = solveExperssions(equation, '*');
+                    equation = solveExpressions(equation, '/');
+                    equation = solveExpressions(equation, '*');
                 }
             }
             else if (mul != -1 && div == -1) {
-                equation = solveExperssions(equation, '*');
+                equation = solveExpressions(equation, '*');
             }
             else {
-                equation = solveExperssions(equation, '/');
+                equation = solveExpressions(equation, '/');
             }
         }
         if (equation.includes('%')) {
-            equation = solveExperssions(equation, '%');
+            equation = solveExpressions(equation, '%');
         }
         equation = calculate(equation);
     }
     display.value = equation;
 }
 
+// Funkcija, ki ustvari gumb 'vstavi'
 function getSolveButton(id) {
     let button = document.createElement('button');
     button.id = `eq-${id}`;
@@ -250,6 +260,7 @@ function getSolveButton(id) {
     return button;
 }
 
+// Naloži tekst iz datoteke v tabelo z enačbami
 function uploadFromFile(input) {
     let file = input.files[0];
     alert(`Datoteka: ${file.name}`);
@@ -279,6 +290,7 @@ function uploadFromFile(input) {
     }
 }
 
+// Doda 'click' dogodek na gumbe za vhodne in izhodne številske sisteme 
 document.addEventListener('click', e => {
     if (e.target.className.includes('btn-in')) {
         const buttons = document.querySelectorAll('.btn-in');
@@ -300,6 +312,7 @@ document.addEventListener('click', e => {
     }
 });
 
+// Določi kateri gumbi se lahko kliknejo pri določenem številskem sistemu
 function setNumberSystemInput(btn) {
     const programmer_calc = document.getElementById('programmer-buttons');
     const all_btns = programmer_calc.getElementsByClassName('btn-num');
@@ -309,6 +322,7 @@ function setNumberSystemInput(btn) {
     }
 }
 
+// Funkcija, ki se pokliče ob kliku na gumb '=', pri logičnem računalu
 function logic_compute() {
     const display = document.getElementById('calc-display');
     const val = display.value;
@@ -318,12 +332,12 @@ function logic_compute() {
     let res = val;
     if (val.includes('AND') || val.includes('OR') || val.includes('XOR')) {
         res = solve_logic(val);
-
     }
     res = convertInput(res, input, output);
     display.value = res;
 }
 
+// Reši logično operacijo ne
 function not(num) {
     let binStr = num.toString(2);
     let negatedBinStr = '';
@@ -333,6 +347,7 @@ function not(num) {
     return parseInt(negatedBinStr, 2);
 }
 
+// Reši logično operacijo med dvema izjavama, ki je podana kot 3. parameter
 function logic_operation(num1, num2, op) {
     num1 = num1.toString();
     num2 = num2.toString();
@@ -358,6 +373,7 @@ function logic_operation(num1, num2, op) {
     return res;
 }
 
+// Ovrednoti vrednost izjave v polju
 function solve_logic(equation) {
     let start = 0;
     while (equation.includes('NOT ')) {
@@ -393,6 +409,7 @@ function solve_logic(equation) {
     return res;
 }
 
+// Pretvarja izraz med številskimi sistemi
 function convertInput(val, input, output) {
     let res = '';
     if (input == 'BIN') {
@@ -446,10 +463,12 @@ function convertInput(val, input, output) {
     return res;
 }
 
+// Pretvori vrednost izjave v željen številski sistem
 function convert(val, from, to) {
     return parseInt(val, from).toString(to);
 }
 
+// Ustvari gumb, ki doda izjavo v polje za izjave
 function getSolveButtonLogic(id) {
     let button = document.createElement('button');
     button.id = `lo-${id}`;
@@ -466,6 +485,7 @@ function getSolveButtonLogic(id) {
     return button;
 }
 
+// Naloži tekst iz datoteke v tabelo z izjavami
 function uploadFromFileLogic(input) {
     let file = input.files[0];
     alert(`Datoteka: ${file.name}`);

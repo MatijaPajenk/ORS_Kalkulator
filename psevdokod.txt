@@ -5,48 +5,60 @@ Mentor: Petra Povalej Bržan
 Program:
 
 Izberemo vrsto računala preko radio gumba
-ce izberemo aritmeticno:
-    ob pritisku gumba z oznako "Vnos preko Tipkovnice" omogocimo vnos preko tipkovnice, privzeto izklopljeno
-    ce vnasamo racune rocno
-        vnesemo poljubno dolg racun v polje za racunanje, vendar upostevamo pravilnost zapisa
+če izberemo aritmetično:
+    ob pritisku gumba z oznako "Vnos preko Tipkovnice" omogočimo vnos preko tipkovnice, privzeto izklopljeno
+    če vnasamo račune ročno
+        vnesemo poljubno dolg račun v polje za računanje, vendar upoštevamo pravilnost zapisa
     sicer
-        racune nalozimo preko gumba "choose file", ki sprejema tekstovne datoteke
-        iz izbrane datoteke prebere racune v obliki niza
+        račune naložimo preko gumba "choose file", ki sprejema tekstovne datoteke
+        iz izbrane datoteke prebere račune v obliki niza
         nize doda v prvi stolpec tabele
-        v drugem stolpcu tabele je gumb "vstavi", ki vstavi izbrani racun v polje za racunanje
-    ko imamo racun v polju za racunanje zeljen racun kliknemo gumb '='
+        v drugem stolpcu tabele je gumb "vstavi", ki vstavi izbrani račun v polje za računanje
+    ko imamo v polju za računanje željen račun, kliknemo gumb '='
     vredonst polja se shrani v niz
-    ce niz vsebuje oklepaje
-        resimo vrednost znotraj oklepajev
-        v nizu zamenjamo podniz z oklepaji z reseno vrednostjo
+    če niz vsebuje oklepaje
+        rešimo vrednost znotraj oklepajev
+        v nizu zamenjamo podniz z oklepaji z rešeno vrednostjo
         postopek ponovimo dokler imamo oklepaje
-    ce niz vsebuje korene
+    če niz vsebuje korene
         podniz z korenskim zapisom zamenjamo z zapisu v obliki eksponenta - x^(1/2)
         postopek ponovimo dokler imamo korene
-    ce niz vsebuje eksponente
-        resimo vrednost ekponeta
-        v nizu zamenjamo podniz eksponeta z reseno vrednostjo
+    če niz vsebuje eksponente
+        rešimo vrednost ekponeta
+        v nizu zamenjamo podniz eksponeta z rešeno vrednostjo
         postopek ponovimo dokler imamo eksponente
-    ce niz vsebuje mnozenje ali deljenje
-        dokler se v nizu pojavi mnozenje ali deljenje
+    če niz vsebuje množenje ali deljenje
+        dokler se v nizu pojavi množenje ali deljenje
             preverimo katera operacija se pojavi prej
-            ce se mnozenje 
-                resimo vrednost mnozenja
-                v nizu zamenjamo podniz zmnozka z reseno vrednostjo
-            ce se deljenje
-                resimo vrednost deljenja
-                v nizu zamnejamo podniz deljenja z reseno vrednostjo
-    ce niz vsebuje sestevanje ali odstevanje
-        dokler se v nizu pojavi sestevanje ali odstevanje
+            če se množenje 
+                rešimo vrednost množenja
+                v nizu zamenjamo podniz zmnozka z rešeno vrednostjo
+            če se deljenje
+                rešimo vrednost deljenja
+                v nizu zamnejamo podniz deljenja z rešeno vrednostjo
+    če niz vsebuje seštevanje ali odštevanje
+        dokler se v nizu pojavi seštevanje ali odštevanje
             preverimo katera operacija se pojavi prej
-            ce se sestevanje 
-                resimo vrednost sestevanja
-                v nizu zamenjamo podniz vsote z reseno vrednostjo
-            ce se odstevanje
-                resimo vrednost odstevanja
-                v nizu zamnejamo podniz razlike z reseno vrednostjo
-    koncni rezultat izpisemo v polju za racunanje
-    
-
-Sicer izberemo Logicno
-    ...
+            če se seštevanje 
+                rešimo vrednost seštevanja
+                v nizu zamenjamo podniz vsote z rešeno vrednostjo
+            če se odštevanje
+                rešimo vrednost odštevanja
+                v nizu zamnejamo podniz razlike z rešeno vrednostjo
+    končni rezultat izpišemo v polju za računanje
+Sicer izberemo Logično
+    ob pritisku gumba z oznako "Vnos preko Tipkovnice" omogočimo vnos preko tipkovnice, privzeto izklopljeno
+    zgorniji gumbi z oznakami 'BIN', 'OCT', 'DEC' in 'HEX' predstavljajo številski sistem za vhodne podatke,
+    spodnji gumbi z oznakami 'BIN', 'OCT', 'DEC' in 'HEX' pa predstavljajo številski sistem za izhodne podatke,
+    če vnasamo izjave ročno
+        vnesemo poljubno dolgo izjavo v polje za izjave, vendar upoštevamo pravilnost zapisa
+    sicer
+        izjave naložimo preko gumba "choose file", ki sprejema tekstovne datoteke
+        iz izbrane datoteke prebere izjave v obliki niza
+        nize doda v prvi stolpec tabele
+        v drugem stolpcu tabele je gumb "vstavi", ki vstavi izbrano izjavo v polje za izjave
+    ko imamo v polju željeno izjavo, kliknemo gumb '='
+    vredonst polja se shrani v niz
+    če niz vsebuje logične operacije
+        se niz ovrednoti
+    niz se pretvori iz vhodnega številskega sistema v izhodnega  
