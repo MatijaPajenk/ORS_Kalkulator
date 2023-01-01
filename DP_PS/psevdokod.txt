@@ -1,7 +1,3 @@
-ORS - 2. seminarska naloga: Kalkulator
-Avtor: Matija Pajenk, Rok Rozman Marinčič
-Mentor: Petra Povalej Bržan
-
 Program:
 
 Izberemo vrsto računala preko radio gumba
