@@ -55,6 +55,39 @@ function addSqrtValue() {
     display.value += "^(1/2)";
 }
 
+// Obrve niz
+function reverseStr(str) {
+    return str.split('').reverse().join('');
+}
+
+// Spremeni predznak trenutnega člena
+function toggleNegative() {
+    const display = document.getElementById('calc-display');
+    let val = display.value;
+    let slice = ')';
+    let id = val.length - 1;
+    if (id == 0) {
+        val += '-(';
+        val = reverseStr(val);
+        val += ')';
+        display.value = val;
+        return;
+    }
+    for (id; !isOperator(val[id]); id--){
+        slice += val[id];
+        console.log(id + ': ' + val[id]);
+    }
+    console.log(id + ': ' + val[id]);
+    const rep = val.substr(id+1, val.length - id);
+    slice += '-(';
+    slice = reverseStr(slice);
+    console.log(slice);
+    console.log(val);
+    console.log(rep);
+    val = val.replace(rep, slice);
+    display.value = val;
+}   
+
 // Počisti polje za računanje
 function clearDisplay() {
     document.getElementById('calc-display').value = "";
@@ -79,7 +112,7 @@ function solveParentheses(eq) {
         equation = equation.replace(sliceP, slice);
         start = eq.indexOf(')', start) + 1;
     }
-
+    console.log('eq: ' + equation);
     return equation;
 }
 
@@ -94,20 +127,22 @@ function solveExpressions(eq, op) {
         let right = '';
 
         for (let i = 0; i < pivot; i++) {
-            if (isOperator(eq[i])) {
+            if (isOperator(eq[i]) && eq[i] != '-') {
                 left = '';
             }
             else {
                 left += eq[i];
             }
         }
-
+        console.log('left: ' + left);
         for (let i = pivot + 1; i < eq.length; i++) {
-            if (isOperator(eq[i])) {
+            console.log(eq[i]);
+            if (isOperator(eq[i]) && eq[i] != '-') {
                 break;
             }
             right += eq[i];
         }
+        console.log('right: ' + right);
 
         equations.push(left + op + right);
         start = eq.indexOf(op, start) + 1;

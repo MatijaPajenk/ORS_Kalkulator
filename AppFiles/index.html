@@ -14,17 +14,16 @@
 <body>
     <nav>
         <div class="navbar">
-            Kalkulator
+            ORS - Kalkulator
         </div>
     </nav>
     <main>
         <div class="container">
             <div id="left">
-                <input type="checkbox" name="type-control" id="display-cb" checked >
-                <label for="display-cb">Vnos prek tipkovnice</label>
+                
                 <div id="calculator">
                     <div id="display">
-                        <input type="text" name="calc-display" id="calc-display">
+                        <input type="text" name="calc-display" id="calc-display" readonly>
                     </div>
                     <div id="arithmetic-buttons" hidden>
                         <div class="row">
@@ -61,10 +60,10 @@
                             <input type="button" value="+" class="btn" onclick="addBtnValue(this.value);">
                         </div>
                         <div class="row">
-                            <input type="button" value="+/-" class="btn">
+                            <input type="button" value="+/-" class="btn" onclick="toggleNegative();">
                             <input type="button" value="0" class="btn btn-num" onclick="addBtnValue(this.value);">
                             <input type="button" value="." class="btn" onclick="addBtnValue(this.value);">
-                            <input type="button" value="=" class="btn btn-equals" onclick="compute()">
+                            <input type="button" value="=" class="btn btn-equals" onclick="compute();">
                         </div>
                     </div>
                     <div id="programmer-buttons">
@@ -134,6 +133,14 @@
                     <input type="radio" name="buttons" id="programmer-radio" value="P" checked>
                     <span class="checkmark"></span>
                 </label>
+
+                <label class="checkbox-container">Vnos preko tipkovnice
+                    <input type="checkbox" name="type-control" id="display-cb">
+                    <span class="checkbox"></span>
+                </label>
+
+                <!-- <input type="checkbox" name="type-control" id="display-cb" class="checkbox">
+                <label for="display-cb">Vnos prek tipkovnice</label> -->
             </div>
             <div id="right">
                 <div id="file-upload" hidden>
@@ -146,10 +153,8 @@
                         </tbody>
                     </table>
                     <br>
-                    <div id="controls">
-                        <label for="uploadFile"><h2>Nalozi enacbe</h2></label>
-                        <input type="file" name="uploadFile" id="uploadFile" accept=".txt" onchange="uploadFromFile(this);">
-                        <br>
+                    <div id="controls" class="file-input">
+                        <input type="file" name="uploadFile" id="uploadFile" class="" accept=".txt" onchange="uploadFromFile(this);">
                     </div>
                 </div>
                 <div id="file-upload-logic">
@@ -163,21 +168,16 @@
                         </tbody>
                     </table>
                     <br>
-                    <div id="controls-logic">
-                        <label for="uploadFileLogic">
-                            <h2>Nalozi enacbe</h2>
-                        </label>
-                        <input type="file" name="uploadFileLogic" id="uploadFileLogic" accept=".txt" onchange="uploadFromFileLogic(this);">
-                        <br>
+                    <div id="controls-logic" class="file-input">
+                        <input type="file" name="uploadFileLogic" id="uploadFileLogic" class="file-input" accept=".txt" onchange="uploadFromFileLogic(this);">
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <footer>
-        <p>ORS - druga seminarsa naloga</p>
-        <p>Avtor: Matija Pajenk, Rok Rozman Marinčič</p>
-        <p>Mentor: Petra Povalej Bržan</p>
+        <p>Avtor: <b>Matija Pajenk, Rok Rozman Marinčič</b></p>
+        <p>Mentor: <b>doc. dr. Petra Povalej Bržan, prof. rač. z. mat.</b></p>
     </footer>
 </body>
 
