@@ -10,13 +10,26 @@
 - equations.txt
 - logic.txt
 
-
 ### DP_PS
 - psevdokoda.txt
 - DiagramPoteka.vsdx
 - DiagramPoteka.pdf
+- DiagramPoteka.png
+
+### Zotero
+- Druga seminarska.rdf
 
 ## Razlaga
-.html, .css in .js datoteke so za delovanje kalkulatorja. Equations.txt in logic.txt sta za testiranje branja iz datoteke in resevanja problemov iz datoteke pri kalkulatorjo.
+Znotraj AppFiles so datoteke za delovanje kalkulatorja (.html, .css in .js).
 
-Psevdokoda.txt je psevdokoda kalkulatorja (nedokoncana). Lahko koncas, ce se ti lubi.
+Znotraj UploadFiles sta datoteki za naložiti.
+Equations.txt in logic.txt sta za testiranje branja iz datoteke in resevanja problemov iz datoteke pri kalkulatorju.
+
+Znotraj DP_PS sta psevdokoda in diagram poteka
+Psevdokoda.txt je psevdokoda kalkulatorja. 
+DiagramPoteka.vsdx je diagram poteka (visio, pdf in png).
+
+Znotraj Zotero je zotero zbirka z viri.
+
+
+
