@@ -31,5 +31,7 @@ DiagramPoteka.vsdx je diagram poteka (visio, pdf in png).
 
 Znotraj Zotero je zotero zbirka z viri.
 
+Datoteka Kalkulator.docx je dokument za pisanje seminarske naloge (ime spremenim na koncu).
+
 
 
