@@ -55,7 +55,7 @@ function addSqrtValue() {
     display.value += "^(1/2)";
 }
 
-// Obrve niz
+// Obrne niz
 function reverseStr(str) {
     return str.split('').reverse().join('');
 }
@@ -450,57 +450,358 @@ function convertInput(val, input, output) {
     if (input == 'BIN') {
         if (output == 'BIN') return val;
         if (output == 'OCT') {
-            res = convert(val, 2, 8);
+            // res = convert(val, 2, 8);
+            res = binToOct(val);
         }
         else if (output == 'DEC') {
-            res = convert(val, 2, 10);
+            // res = convert(val, 2, 10);
+            res = binToDec(val);
         }
         else if (output == 'HEX') {
-            res = convert(val, 2, 16).toUpperCase();
+            // res = convert(val, 2, 16).toUpperCase();
+            res = binToHex(val);
         }
     }
     else if (input == 'OCT') {
         if (output == 'OCT') return val;
         if (output == 'BIN') {
-            res = convert(val, 8, 2);
+            // res = convert(val, 8, 2);
+            res = octToBin(val);
         }
         else if (output == 'DEC') {
-            res = convert(val, 8, 10);
+            // res = convert(val, 8, 10);
+            res = octToDec(val);
         }
         else if (output == 'HEX') {
-            res = convert(val, 8, 16).toUpperCase();
+            // res = convert(val, 8, 16).toUpperCase();
+            res = octToHex(val);
         }
     }
     else if (input == 'DEC') {
         if (output == 'DEC') return val;
         if (output == 'BIN') {
-            res = convert(val, 10, 2);
+            // res = convert(val, 10, 2);
+            res = decToBin(val);
         }
         else if (output == 'OCT') {
-            res = convert(val, 10, 8);
+            // res = convert(val, 10, 8);
+            res = decToOct(val);
         }
         else if (output == 'HEX') {
-            res = convert(val, 10, 16).toUpperCase();
+            // res = convert(val, 10, 16).toUpperCase();
+            res = decToHex(val);
         }
     }
     else if (input == 'HEX') {
         if (output == 'HEX') return val;
         if (output == 'BIN') {
-            res = convert(val, 16, 2);
+            // res = convert(val, 16, 2);
+            res = hexToBin(val);
         }
         else if (output == 'OCT') {
-            res = convert(val, 16, 8);
+            // res = convert(val, 16, 8);
+            res = hexToOct(val);
         }
         else if (output == 'DEC') {
-            res = convert(val, 16, 10);
+            // res = convert(val, 16, 10);
+            res = hexToDec(val);
         }
     }
     return res;
 }
 
-// Pretvori vrednost izjave v željen številski sistem
-function convert(val, from, to) {
-    return parseInt(val, from).toString(to);
+// Pretvori vrednost izjave v željen številski sistem, ni v uporabi
+// function convert(val, from, to) {
+//     return parseInt(val, from).toString(to);
+// }
+
+// Pretvori binarno stevilo v osmisko
+function binToOct(val) {
+    let res = '';
+    let remaining = val;
+    while (remaining.length > 0) {
+        let digits = remaining.slice(-3);
+        while (digits.length < 3) {
+            digits = '0' + digits;
+        }
+
+        let digit;
+
+        switch (digits) {
+            case '000':
+                digit = '0';
+                break;
+            case '001':
+                digit = '1';
+                break;
+            case '010':
+                digit = '2';
+                break;
+            case '011':
+                digit = '3';
+                break;
+            case '100':
+                digit = '4';
+                break;
+            case '101':
+                digit = '5';
+                break;
+            case '110':
+                digit = '6';
+                break;
+            case '111':
+                digit = '7';
+                break;
+        }
+        res = digit + res;
+        remaining = remaining.slice(0, -3);
+    }
+    return res;
+}
+
+// Pretvori binarno stevilo v desetisko
+function binToDec(val) {
+    let res = 0;
+    let c = 0;
+    for (let i = val.length - 1; i >= 0; i--){
+        res += val[i] * (2 ** c);
+        c++;
+    }
+    return res;
+}
+
+// Pretvori binarno stevilo v sestnajstisko
+function binToHex(val) {
+    let res = '';
+    let remaining = val;
+    while (remaining.length > 0) {
+        let digits = remaining.slice(-4);
+        while (digits.length < 4) {
+            digits = '0' + digits;
+        }
+
+        let digit;
+
+        switch (digits) {
+            case '0000':
+                digit = '0';
+                break;
+            case '0001':
+                digit = '1';
+                break;
+            case '0010':
+                digit = '2';
+                break;
+            case '0011':
+                digit = '3';
+                break;
+            case '0100':
+                digit = '4';
+                break;
+            case '0101':
+                digit = '5';
+                break;
+            case '0110':
+                digit = '6';
+                break;
+            case '0111':
+                digit = '7';
+                break;
+            case '1000':
+                digit = '8';
+                break;
+            case '1001':
+                digit = '9';
+                break;
+            case '1010':
+                digit = 'A';
+                break;
+            case '1011':
+                digit = 'B';
+                break;
+            case '1100':
+                digit = 'C';
+                break;
+            case '1101':
+                digit = 'D';
+                break;
+            case '1110':
+                digit = 'E';
+                break;
+            case '1111':
+                digit = 'F';
+                break;
+        }
+        res = digit + res;
+        remaining = remaining.slice(0, -4);
+    }
+    return res;
+}
+
+// Pretvori osmisko stevilo v dvojisko
+function octToBin(val) {
+    var lookup = {
+        '0': '000',
+        '1': '001',
+        '2': '010',
+        '3': '011',
+        '4': '100',
+        '5': '101',
+        '6': '110',
+        '7': '111',
+    };
+    let res = '';
+    for (var i = 0; i < val.length; i++) {
+        res += lookup[val[i]];
+    }
+    return res;
+}
+
+// Pretvori osmisko stevilo v desetisko
+function octToDec(val) {
+    let res = 0;
+    let c = 0;
+    for (let i = val.length - 1; i >= 0; i--) {
+        res += val[i] * (8 ** c);
+        c++;
+    }
+    return res;
+}
+
+// Pretvori osmisko stevilo v sestnajstisko
+function octToHex(val) {
+    let res = octToBin(val);
+    res = binToHex(res);
+    while (res[0] == '0') {
+        res = res.slice(1, res.length);
+    }
+    return res;
+}
+
+// Pretvori desetisko stevilo v dvojisko
+function decToBin(val) {
+    let res = '';
+    while (val > 0) {
+        res = val % 2 + res;
+        val = (val - val % 2) / 2;
+    }
+    return res;
+}
+
+// Pretvori desetisko stevilo v osmisko
+function decToOct(val) {
+    let res = '';
+    while (val > 0) {
+        res = val % 8 + res;
+        val = (val - val % 8) / 8;
+    }
+    return res;
+}
+
+// Pretvori desetisko stevilo v sestnajstisko
+function decToHex(val) {
+    let res = '';
+    while (val > 0) {
+        let rem = val % 16;
+        switch (rem) {
+            case 10:
+                res = 'A' + res;
+                break;
+            case 11:
+                res = 'B' + res;
+                break;
+            case 12:
+                res = 'C' + res;
+                break;
+            case 13:
+                res = 'D' + res;
+                break;
+            case 14:
+                res = 'E' + res;
+                break;
+            case 15:
+                res = 'F' + res;
+                break;
+            default:
+                res = rem + res;
+                break;
+            }
+        val = (val - rem) / 16;
+    }
+    return res;
+}
+
+// Pretvori sestnajstisko stevilo v dvojisko
+function hexToBin(val) {
+    var lookup = {
+        '0': '0000',
+        '1': '0001',
+        '2': '0010',
+        '3': '0011',
+        '4': '0100',
+        '5': '0101',
+        '6': '0110',
+        '7': '0111',
+        '8': '1000',
+        '9': '1001',
+        'A': '1010',
+        'B': '1011',
+        'C': '1100',
+        'D': '1101',
+        'E': '1110',
+        'F': '1111'
+    };
+    let res = '';
+    for (var i = 0; i < val.length; i++) {
+        res += lookup[val[i]];
+    }
+    return res;
+}
+
+// Pretvori sestnajstisko stevilo v osmisko
+function hexToOct(val) {
+    let res = hexToBin(val);
+    console.log('res: ' + res);
+    res = binToOct(res);
+    while (res[0] == '0') {
+        res = res.slice(1, res.length);
+    }
+    console.log('res: ' + res);
+    return res;
+}
+
+// Pretvori sestnajstisko stevilo v desetisko
+function hexToDec(val) {
+    let res = 0;
+    let c = 0;
+    for (let i = val.length - 1; i >= 0; i--) {
+        let x;
+        switch (val[i]) {
+            case 'A':
+                x = 10;
+                break;
+            case 'B':
+                x = 11;
+                break;
+            case 'C':
+                x = 12;
+                break;
+            case 'D':
+                x = 13;
+                break;
+            case 'E':
+                x = 14;
+                break;
+            case 'F':
+                x = 15;
+                break;
+            default:
+                x = val[i];
+        }
+        res += x * (16 ** c);
+        c++;
+    }
+    return res;
 }
 
 // Ustvari gumb, ki doda izjavo v polje za izjave
