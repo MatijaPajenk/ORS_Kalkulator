@@ -510,11 +510,6 @@ function convertInput(val, input, output) {
     return res;
 }
 
-// Pretvori vrednost izjave v željen številski sistem, ni v uporabi
-// function convert(val, from, to) {
-//     return parseInt(val, from).toString(to);
-// }
-
 // Pretvori binarno stevilo v osmisko
 function binToOct(val) {
     let res = '';

@@ -20,12 +20,11 @@
     <main>
         <div class="container">
             <div id="left">
-                
                 <div id="calculator">
                     <div id="display">
                         <input type="text" name="calc-display" id="calc-display" readonly>
                     </div>
-                    <div id="arithmetic-buttons" hidden>
+                    <div id="arithmetic-buttons">
                         <div class="row">
                             <input type="button" value="(" class="btn" onclick="addBtnValue(this.value);">
                             <input type="button" value=")" class="btn" onclick="addBtnValue(this.value);">
@@ -66,7 +65,7 @@
                             <input type="button" value="=" class="btn btn-equals" onclick="compute();">
                         </div>
                     </div>
-                    <div id="programmer-buttons">
+                    <div id="programmer-buttons" hidden>
                         <div class="row">
                             <input type="button" value="C" class="btn btn-logic-special" onclick="clearDisplay();">
                             <button type="button" class="btn btn-logic-special" onclick="deleteDisplayValue();"><i class="fa-solid fa-delete-left"></i></button>
@@ -126,21 +125,17 @@
                     </div>
                 </div>
                 <label class="radio-group">Aritmetično računalo
-                    <input type="radio" name="buttons" id="arithmetic-radio" value="A">
+                    <input type="radio" name="buttons" id="arithmetic-radio" value="A" checked>
                     <span class="checkmark"></span>
                 </label>
                 <label class="radio-group">Logično računalo
-                    <input type="radio" name="buttons" id="programmer-radio" value="P" checked>
+                    <input type="radio" name="buttons" id="programmer-radio" value="P">
                     <span class="checkmark"></span>
                 </label>
-
                 <label class="checkbox-container">Vnos preko tipkovnice
                     <input type="checkbox" name="type-control" id="display-cb">
                     <span class="checkbox"></span>
                 </label>
-
-                <!-- <input type="checkbox" name="type-control" id="display-cb" class="checkbox">
-                <label for="display-cb">Vnos prek tipkovnice</label> -->
             </div>
             <div id="right">
                 <div id="file-upload" hidden>
